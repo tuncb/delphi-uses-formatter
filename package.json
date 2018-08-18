@@ -1,7 +1,7 @@
 {
     "name": "pascal-uses-formatter",
     "displayName": "pascal-uses-formatter",
-    "description": "sors the uses section in pascal files",
+    "description": "sorts the uses section in pascal files",
     "version": "0.0.1",
     "publisher": "tuncb",
     "engines": {
@@ -11,7 +11,7 @@
         "Other"
     ],
     "activationEvents": [
-        "onCommand:extension.formatUses"
+        "onLanguage:pascal"
     ],
     "main": "./out/extension",
     "contributes": {
@@ -19,6 +19,14 @@
             {
                 "command": "extension.formatUses",
                 "title": "Format uses section"
+            }
+        ],
+        "languages": [
+            {
+             "id": "pascal",
+             "extensions": [
+                 ".pas"
+             ]
             }
         ]
     },
