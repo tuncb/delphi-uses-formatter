@@ -7,6 +7,10 @@ interface UsesFormatterState {
 
 function formatUses(doc: vscode.TextDocument) {
     vscode.window.showInformationMessage('Not implemented yet!');
+    let text = doc.getText();
+    let regex = /uses((.|\s)*?);/g;
+    let matches = text.match(regex);
+    console.log(matches);
 }
 
 function formatUsesOnCommand() {
