@@ -9,30 +9,31 @@ interface IUsesSectionData {
     fullText: string;
     index: number;
     units: string[];
-    separator: string;
 }
 
 function parseUsingSections(text: string): IUsesSectionData[]
 {
-    const usesSectionRegex = /uses(\s)((?:[^;])+);/g;
+    const usesSectionRegex = /uses[\s\w.,]+;/g;
     let results: IUsesSectionData[] = [];
     let match = null;
     while ((match = usesSectionRegex.exec(text)) !== null) {
         results.push({
             index: match.index,
             fullText: match[0],
-            separator: match[1],
-            units: match[2].replace(/(\r\n\t|\n|\r\t|\s)/gm,"").split(',')
+            units: match[0]
+                .substring(4, match[0].length - 1)
+                .replace(/(\r\n\t|\n|\r\t|\s)/gm,"")
+                .split(',')
         });
     }
 
     return results;
 }
 
-function formatUsesSection(usesSection: IUsesSectionData): string
+function formatUsesSection(usesSection: IUsesSectionData, separator: string, lineEnd: string): string
 {
-    let section = `uses ${usesSection.separator}`;
-    return section;
+    const units = usesSection.units.join(`,${separator}${lineEnd}`);
+    return `uses${separator}${lineEnd}${units};`;
 }
 
 function formatUses(doc: vscode.TextDocument) {
@@ -40,7 +41,10 @@ function formatUses(doc: vscode.TextDocument) {
     const text = doc.getText();
     const usesSections = parseUsingSections(text);
     usesSections.forEach(section => section.units.sort());
-    const newSections = usesSections.map(formatUsesSection);
+
+    const separator = "  ";
+    const endLine = "\n";
+    const newSections = usesSections.map(section => formatUsesSection(section, separator, endLine));
     console.log(usesSections);
     console.log(newSections);
 }
