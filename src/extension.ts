@@ -33,7 +33,7 @@ function parseUsingSections(text: string): IUsesSectionData[]
 function formatUsesSection(usesSection: IUsesSectionData, separator: string, lineEnd: string): string
 {
     const units = usesSection.units.join(`,${separator}${lineEnd}`);
-    return `uses${separator}${lineEnd}${units};`;
+    return `uses${separator}${lineEnd}${separator}${units};`;
 }
 
 function formatUses(doc: vscode.TextDocument) {
