@@ -1,22 +1,25 @@
 import * as assert from 'assert';
-import { formatText } from '../../usesFormatter';
+import { formatText, ITextReplace } from '../../usesFormatter';
+
+var _ = require('underscore');
 
 interface TestSample {
   input: string;
-  output: string;
+  output: ITextReplace[];
 }
 
 const sampleTexts: TestSample[] = [
   {
     input: "",
-    output: "",
+    output: [],
   }
 ];
 
 const testSample = (sample: TestSample): boolean =>
 {
-  formatText(sample.input);
-  return true;
+  const replaces = formatText(sample.input);
+
+  return _.isEqual(replaces, sample.output);
 };
 
 suite('UsesFormatter tests', () => {
