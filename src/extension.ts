@@ -1,40 +1,47 @@
 import * as vscode from 'vscode';
 import { formatText } from './usesFormatter';
+import { TextEditor, TextEditorEdit } from 'vscode';
 
 interface IUsesFormatterState {
   context: vscode.ExtensionContext;
 }
 
-function formatDocument(doc: vscode.TextDocument)
+function formatDocument(doc: vscode.TextDocument, _edit: TextEditorEdit)
 {
   const text = doc.getText();
   vscode.window.showInformationMessage('Not implemented yet!');
   formatText(text);
 }
 
-function formatUsesOnCommand() {
-    if (!vscode.window.activeTextEditor) {
-        vscode.window.showErrorMessage('No active text editor found!');
-        return;
-    }
+function formatUsesOnCommand(textEditor: TextEditor, edit: TextEditorEdit) {
+  formatDocument(textEditor.document, edit);
+}
 
-    formatDocument(vscode.window.activeTextEditor.document);
+function formatUsesOnSave(textDocument: vscode.TextDocument) {
+  if (!vscode.window.activeTextEditor) {
+    vscode.window.showErrorMessage('No active text editor found!');
+    return;
+  }
+
+  const editor = vscode.window.activeTextEditor;
+  editor.edit((edit: TextEditorEdit) => formatUsesOnCommand(editor, edit));
 }
 
 function subscribe(state: IUsesFormatterState) {
-    vscode.workspace.onDidSaveTextDocument(formatDocument, state, state.context.subscriptions);
+  vscode.workspace.onDidSaveTextDocument(formatUsesOnSave, state, state.context.subscriptions);
 
-    let commandDisposable = vscode.commands.registerCommand('extension.formatUses', formatUsesOnCommand, state);
-    state.context.subscriptions.push(commandDisposable);
+  const commandName = "extension.formatUses";
+  const commandDisposable = vscode.commands.registerTextEditorCommand(commandName, formatUsesOnCommand, state);
+  state.context.subscriptions.push(commandDisposable);
 }
 
 export function activate(context: vscode.ExtensionContext) {
-    console.log('Format uses extension is activated');
+  console.log('Format uses extension is activated');
 
-    let state: IUsesFormatterState = {context};
-    subscribe(state);
+  let state: IUsesFormatterState = {context};
+  subscribe(state);
 }
 
 export function deactivate() {
-    console.log('Format uses extension is deactivated');
+  console.log('Format uses extension is deactivated');
 }

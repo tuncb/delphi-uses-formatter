@@ -4,6 +4,17 @@ interface IUsesSectionData {
   units: string[];
 }
 
+export interface IPosition {
+  line: number;
+  character: number;
+}
+
+export interface ITextReplace {
+  start: IPosition;
+  end: IPosition;
+  value: string;
+}
+
 function parseUsingSections(text: string): IUsesSectionData[]
 {
   const usesSectionRegex = /uses[\s\w.,]+;/g;
@@ -29,14 +40,15 @@ function formatUsesSection(usesSection: IUsesSectionData, separator: string, lin
     return `uses${separator}${lineEnd}${separator}${units};`;
 }
 
-export function formatText(text: string): string[] {
+export function formatText(text: string): ITextReplace[] {
     const usesSections = parseUsingSections(text);
     usesSections.forEach(section => section.units.sort());
 
     const separator = "  ";
     const endLine = "\n";
     const newSections = usesSections.map(section => formatUsesSection(section, separator, endLine));
-    console.log(usesSections);
+
     console.log(newSections);
-    return newSections;
+
+    return [];
 }
