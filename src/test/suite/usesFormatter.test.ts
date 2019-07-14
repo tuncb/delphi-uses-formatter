@@ -8,8 +8,6 @@ interface TestSample {
   output: ITextSection[];
 }
 
-
-
 const sampleTexts: TestSample[] = [
   {
     input: "uses d, c, b, e, f, a;",
