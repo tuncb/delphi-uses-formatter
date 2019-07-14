@@ -8,9 +8,11 @@ interface IUsesFormatterState {
 
 function formatDocument(doc: vscode.TextDocument, _edit: TextEditorEdit)
 {
+  const separator = "  ";
+  const lineEnd = "\n";
   const text = doc.getText();
   vscode.window.showInformationMessage('Not implemented yet!');
-  formatText(text);
+  formatText(text, separator, lineEnd);
 }
 
 function formatUsesOnCommand(textEditor: TextEditor, edit: TextEditorEdit) {

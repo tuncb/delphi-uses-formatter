@@ -25,7 +25,10 @@ const sampleTexts: TestSample[] = [
 
 const test = (sample: TestSample): void =>
 {
-  const replaces = formatText(sample.input);
+  const separator = "  ";
+  const lineEnd = "\n";
+
+  const replaces = formatText(sample.input, separator, lineEnd);
   expect(replaces).to.eql(sample.output);
 };
 

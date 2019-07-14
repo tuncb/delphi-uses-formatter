@@ -31,15 +31,12 @@ function formatUsesSection(units: string[], separator: string, lineEnd: string):
   return `uses${lineEnd}${separator}${formattedUnits};${lineEnd}`;
 }
 
-export function formatText(text: string): ITextSection[] {
-  const separator = "  ";
-  const endLine = "\n";
-
+export function formatText(text: string, separator: string, lineEnd: string): ITextSection[] {
   return findUsesSections(text).map((section: ITextSection): ITextSection => {
     return {
       startOffset: section.startOffset,
       endOffset: section.endOffset,
-      value: formatUsesSection(parseUnits(section.value),  separator, endLine)
+      value: formatUsesSection(parseUnits(section.value),  separator, lineEnd)
     };
   });
 }
