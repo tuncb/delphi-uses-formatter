@@ -1,29 +1,38 @@
-import * as assert from 'assert';
-import { formatText, ITextReplace } from '../../usesFormatter';
+import { formatText, ITextSection } from '../../usesFormatter';
 
-var _ = require('underscore');
+var expect = require('chai').expect;
+var {describe, it} = require('mocha');
 
 interface TestSample {
   input: string;
-  output: ITextReplace[];
+  output: ITextSection[];
 }
+
+
 
 const sampleTexts: TestSample[] = [
   {
-    input: "",
-    output: [],
+    input: "uses d, c, b, e, f, a;",
+    output: [
+      {
+        startOffset: 0,
+        endOffset:22,
+        value: "uses\n  a,\n  b,\n  c,\n  d,\n  e,\n  f;\n"
+      }
+    ],
   }
 ];
 
-const testSample = (sample: TestSample): boolean =>
+const test = (sample: TestSample): void =>
 {
   const replaces = formatText(sample.input);
-
-  return _.isEqual(replaces, sample.output);
+  expect(replaces).to.eql(sample.output);
 };
 
-suite('UsesFormatter tests', () => {
-  test('Samples', () => {
-    assert(sampleTexts.map(testSample).every((val): Boolean => val === true));
+describe('UsesFormatter', function() {
+  describe('formatText', function () {
+    it('Expect correct  replaceText for provided  samples',  function() {
+      sampleTexts.forEach(test);
+    });
   });
 });

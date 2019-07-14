@@ -1,54 +1,45 @@
-interface IUsesSectionData {
-  fullText: string;
-  index: number;
-  units: string[];
-}
-
-export interface IPosition {
-  line: number;
-  character: number;
-}
-
-export interface ITextReplace {
-  start: IPosition;
-  end: IPosition;
+export interface ITextSection {
+  startOffset: number;
+  endOffset: number;
   value: string;
 }
 
-function parseUsingSections(text: string): IUsesSectionData[]
-{
-  const usesSectionRegex = /uses[\s\w.,]+;/g;
-  let results: IUsesSectionData[] = [];
+const findUsesSections = (text: string): ITextSection[]  => {
+  const regex = /uses[\s\w.,]+;/g;
+  const results: ITextSection[] = [];
   let match = null;
-  while ((match = usesSectionRegex.exec(text)) !== null) {
-      results.push({
-          index: match.index,
-          fullText: match[0],
-          units: match[0]
-              .substring(4, match[0].length - 1)
-              .replace(/(\r\n\t|\n|\r\t|\s)/gm,"")
-              .split(',')
-      });
+  while ((match = regex.exec(text)) !== null) {
+    results.push({
+      startOffset: match.index,
+      endOffset: match.index + match[0].length,
+      value: match[0]
+    });
   }
+  return results;
+};
 
-    return results;
-}
+const parseUnits = (text:string): string[] => {
+  return text
+    .substring(4, text.length - 1)
+    .replace(/(\r\n\t|\n|\r\t|\s)/gm,"")
+    .split(',');
+};
 
-function formatUsesSection(usesSection: IUsesSectionData, separator: string, lineEnd: string): string
+function formatUsesSection(units: string[], separator: string, lineEnd: string): string
 {
-    const units = usesSection.units.join(`,${separator}${lineEnd}`);
-    return `uses${separator}${lineEnd}${separator}${units};`;
+  const formattedUnits = units.sort().join(`,${lineEnd}${separator}`);
+  return `uses${lineEnd}${separator}${formattedUnits};${lineEnd}`;
 }
 
-export function formatText(text: string): ITextReplace[] {
-    const usesSections = parseUsingSections(text);
-    usesSections.forEach(section => section.units.sort());
+export function formatText(text: string): ITextSection[] {
+  const separator = "  ";
+  const endLine = "\n";
 
-    const separator = "  ";
-    const endLine = "\n";
-    const newSections = usesSections.map(section => formatUsesSection(section, separator, endLine));
-
-    console.log(newSections);
-
-    return [];
+  return findUsesSections(text).map((section: ITextSection): ITextSection => {
+    return {
+      startOffset: section.startOffset,
+      endOffset: section.endOffset,
+      value: formatUsesSection(parseUnits(section.value),  separator, endLine)
+    };
+  });
 }
