@@ -1,15 +1,39 @@
 import * as vscode from 'vscode';
 import { formatText, ITextSection } from './usesFormatter';
-import { TextEditor, TextEditorEdit, Range } from 'vscode';
+import { TextEditor, TextEditorEdit, Range, EndOfLine, TextEditorOptions } from 'vscode';
 
 interface IUsesFormatterState {
   context: vscode.ExtensionContext;
 }
 
-function formatDocument(doc: vscode.TextDocument, edit: TextEditorEdit)
+function getLineEnd(eol: EndOfLine): string
 {
-  const separator = "  ";
-  const lineEnd = "\n";
+  switch(eol) {
+    case EndOfLine.LF:
+      return "\n";
+    case EndOfLine.CRLF:
+      return "\r\n";
+  }
+  return "\n";
+}
+
+function getSeparator(options: TextEditorOptions): string
+{
+  if (options.insertSpaces) {
+    if (options.tabSize && (typeof(options.tabSize) === "number")) {
+      const tabSize = options.tabSize as number;
+      return " ".repeat(tabSize);
+    }
+    " ".repeat(2);
+  }
+  return "\t";
+}
+
+function formatDocument(editor: TextEditor, edit: TextEditorEdit)
+{
+  const doc = editor.document;
+  const separator = getSeparator(editor.options);
+  const lineEnd = getLineEnd(doc.eol);
   const text = doc.getText();
   vscode.window.showInformationMessage('Not implemented yet!');
   const newSections = formatText(text, separator, lineEnd);
@@ -20,7 +44,7 @@ function formatDocument(doc: vscode.TextDocument, edit: TextEditorEdit)
 }
 
 function formatUsesOnCommand(textEditor: TextEditor, edit: TextEditorEdit) {
-  formatDocument(textEditor.document, edit);
+  formatDocument(textEditor, edit);
 }
 
 function formatUsesOnSave(textDocument: vscode.TextDocument) {
