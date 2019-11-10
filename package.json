@@ -37,7 +37,8 @@
         "compile": "tsc -p ./",
         "watch": "tsc -watch -p ./",
         "pretest": "npm run compile",
-        "test": "node ./out/test/runTests.js"
+        "test": "node ./out/test/runTests.js",
+        "deploy": "vsce publish -p"
     },
     "devDependencies": {
         "@types/chai": "^4.1.7",
@@ -51,6 +52,7 @@
         "source-map-support": "^0.5.12",
         "tslint": "^5.16.0",
         "typescript": "^3.5.1",
+        "vsce": "^1.69.0",
         "vscode-test": "^1.0.0"
     }
 }
