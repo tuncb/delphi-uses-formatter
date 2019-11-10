@@ -31,15 +31,16 @@ const testFile = async (originalFileName: string): Promise<void> => {
   const testPair = await openTestPair(originalFileName, correctFileName);
   await vscode.window.showTextDocument(testPair.originalDoc);
 
-  const extension = await vscode.extensions.getExtension('tuncb.pascal-uses-formatter');
-  assert(extension);
-  assert(extension!.isActive);
+  await vscode.commands.executeCommand('pascal-uses-formatter.formatUses');
 
-  await vscode.commands.executeCommand('extension.formatUses');
+  const extension = await vscode.extensions.getExtension('tuncbahcecioglu.pascal-uses-formatter');
+  assert.ok(extension);
+  assert.ok(extension!.isActive);
+
   const changedText = testPair.correctDoc.getText();
   const correctDoc = testPair.originalDoc.getText();
 
-  assert(correctDoc === changedText);
+  assert.ok(correctDoc === changedText);
 };
 
 suite('Extension Test Suite', () => {
