@@ -1,18 +1,55 @@
-import * as assert from 'assert';
 import { before } from 'mocha';
 
-// You can import and use all API from the 'vscode' module
-// as well as import your extension to test it
+const { assert } = require('chai');
+import * as path from 'path';
 import * as vscode from 'vscode';
-// import * as myExtension from '../extension';
+import glob = require('glob');
+
+const findCorrectFileName = (originalFileName: string) => {
+  const originalPos = originalFileName.lastIndexOf('.original');
+  return `${originalFileName.substr(0, originalPos)}.correct.test.pas`;
+};
+
+interface ITestPairDoc {
+  originalDoc: vscode.TextDocument;
+  correctDoc: vscode.TextDocument;
+}
+
+const openTextDocument = async (fileName: string): Promise<vscode.TextDocument> => {
+  return Promise.resolve(vscode.workspace.openTextDocument(fileName));
+};
+
+const openTestPair = async (originalFileName: string, correctFileName: string): Promise<ITestPairDoc> => {
+  const originalDoc = await openTextDocument(originalFileName);
+  const correctDoc = await openTextDocument(correctFileName);
+
+  return {originalDoc, correctDoc};
+};
+
+const testFile = async (originalFileName: string): Promise<void> => {
+  const correctFileName = findCorrectFileName(originalFileName);
+  const testPair = await openTestPair(originalFileName, correctFileName);
+  await vscode.window.showTextDocument(testPair.originalDoc);
+
+  const extension = await vscode.extensions.getExtension('tuncb.pascal-uses-formatter');
+  assert(extension);
+  assert(extension!.isActive);
+
+  await vscode.commands.executeCommand('extension.formatUses');
+  const changedText = testPair.correctDoc.getText();
+  const correctDoc = testPair.originalDoc.getText();
+
+  assert(correctDoc === changedText);
+};
 
 suite('Extension Test Suite', () => {
   before(() => {
     vscode.window.showInformationMessage('Start all tests.');
   });
 
-  test('Sample test', () => {
-    assert.equal(-1, [1, 2, 3].indexOf(5));
-    assert.equal(-1, [1, 2, 3].indexOf(0));
+  test('Conversion tests', async () => {
+    const fileGlob = path.resolve(__dirname, '../../../testExamples', '*.original.test.pas');
+    const files = glob.sync(fileGlob);
+    return Promise.all(files.map(testFile));
   });
 });
