@@ -2,33 +2,27 @@
     "name": "pascal-uses-formatter",
     "displayName": "pascal-uses-formatter",
     "description": "sorts the uses section in pascal files",
-    "version": "0.0.2",
-    "publisher": "tuncb",
+    "version": "0.0.3",
+    "publisher": "tuncbahcecioglu",
     "repository": "https://github.com/tuncb/delphi-uses-formatter",
     "license": "Apache-2.0",
     "engines": {
-        "vscode": "^1.34.0"
+        "vscode": "^1.36.0"
     },
     "categories": [
         "Other"
     ],
     "activationEvents": [
-        "onLanguage:pascal"
+        "onLanguage:pascal",
+        "onLanguage:objectPascal",
+        "onCommand:pascal-uses-formatter.formatUses"
     ],
     "main": "./out/extension",
     "contributes": {
         "commands": [
             {
-                "command": "extension.formatUses",
+                "command": "pascal-uses-formatter.formatUses",
                 "title": "Format uses section"
-            }
-        ],
-        "languages": [
-            {
-                "id": "pascal",
-                "extensions": [
-                    ".pas"
-                ]
             }
         ]
     },
