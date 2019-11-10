@@ -35,7 +35,7 @@ function formatDocument(editor: TextEditor, edit: TextEditorEdit)
   const separator = getSeparator(editor.options);
   const lineEnd = getLineEnd(doc.eol);
   const text = doc.getText();
-  vscode.window.showInformationMessage('Not implemented yet!');
+  vscode.window.showInformationMessage('Format uses extension BETA is formatting your document.');
   const newSections = formatText(text, separator, lineEnd);
   newSections.forEach((section: ITextSection) => {
     const range = new Range(doc.positionAt(section.startOffset), doc.positionAt(section.endOffset));
@@ -66,7 +66,7 @@ function subscribe(state: IUsesFormatterState) {
 }
 
 export function activate(context: vscode.ExtensionContext) {
-  console.log('Format uses extension is activated');
+  console.log('Format uses extension BETA is activated');
 
   let state: IUsesFormatterState = {context};
   subscribe(state);
