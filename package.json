@@ -37,7 +37,7 @@
         "compile": "tsc -p ./",
         "watch": "tsc -watch -p ./",
         "pretest": "npm run compile",
-        "test": "node ./out/test/runTest.js"
+        "test": "node ./out/test/runTests.js"
     },
     "devDependencies": {
         "@types/chai": "^4.1.7",
