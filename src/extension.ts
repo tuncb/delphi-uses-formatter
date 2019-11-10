@@ -47,20 +47,28 @@ function formatUsesOnCommand(textEditor: TextEditor, edit: TextEditorEdit) {
   formatDocument(textEditor, edit);
 }
 
-function formatUsesOnSave(textDocument: vscode.TextDocument) {
+function formatUsesOnSave(e: vscode.TextDocumentWillSaveEvent) {
   if (!vscode.window.activeTextEditor) {
     vscode.window.showErrorMessage('No active text editor found!');
     return;
   }
 
-  const editor = vscode.window.activeTextEditor;
-  editor.edit((edit: TextEditorEdit) => formatUsesOnCommand(editor, edit));
+  const doBeforeSave = async () => {
+    const editor = vscode.window.activeTextEditor;
+    if (!editor) {
+      return;
+    }
+    return editor.edit((edit: TextEditorEdit) => formatUsesOnCommand(editor, edit));
+  };
+
+  e.waitUntil(doBeforeSave());
+
 }
 
 function subscribe(state: IUsesFormatterState) {
-  vscode.workspace.onDidSaveTextDocument(formatUsesOnSave, state, state.context.subscriptions);
+  vscode.workspace.onWillSaveTextDocument(formatUsesOnSave, state, state.context.subscriptions);
 
-  const commandName = "extension.formatUses";
+  const commandName = "pascal-uses-formatter.formatUses";
   const commandDisposable = vscode.commands.registerTextEditorCommand(commandName, formatUsesOnCommand, state);
   state.context.subscriptions.push(commandDisposable);
 }
