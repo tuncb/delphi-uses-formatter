@@ -33,7 +33,7 @@ const testFile = async (originalFileName: string): Promise<void> => {
 
   await vscode.commands.executeCommand('pascal-uses-formatter.formatUses');
 
-  const extension = await vscode.extensions.getExtension('tuncbahcecioglu.pascal-uses-formatter');
+  const extension = await vscode.extensions.getExtension('tuncb.pascal-uses-formatter');
   assert.ok(extension);
   assert.ok(extension!.isActive);
 
