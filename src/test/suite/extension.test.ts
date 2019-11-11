@@ -37,8 +37,8 @@ const testFile = async (originalFileName: string): Promise<void> => {
   assert.ok(extension);
   assert.ok(extension!.isActive);
 
-  const changedText = testPair.correctDoc.getText();
-  const correctDoc = testPair.originalDoc.getText();
+  const changedText = testPair.originalDoc.getText();
+  const correctDoc = testPair.correctDoc.getText();
 
   assert.ok(correctDoc === changedText);
 };

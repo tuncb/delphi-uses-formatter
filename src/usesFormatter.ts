@@ -27,7 +27,11 @@ const parseUnits = (text:string): string[] => {
 
 function formatUsesSection(units: string[], separator: string, lineEnd: string): string
 {
-  const formattedUnits = units.sort().join(`,${lineEnd}${separator}`);
+  const sortFun = (a: string, b: string) => {
+    return a.localeCompare(b, undefined, {sensitivity: 'base'});
+  };
+
+  const formattedUnits = units.sort(sortFun).join(`,${lineEnd}${separator}`);
   return `uses${lineEnd}${separator}${formattedUnits};`;
 }
 
