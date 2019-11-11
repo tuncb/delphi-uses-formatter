@@ -28,7 +28,7 @@ const parseUnits = (text:string): string[] => {
 function formatUsesSection(units: string[], separator: string, lineEnd: string): string
 {
   const formattedUnits = units.sort().join(`,${lineEnd}${separator}`);
-  return `uses${lineEnd}${separator}${formattedUnits};${lineEnd}`;
+  return `uses${lineEnd}${separator}${formattedUnits};`;
 }
 
 export function formatText(text: string, separator: string, lineEnd: string): ITextSection[] {

@@ -15,7 +15,7 @@ const sampleTexts: TestSample[] = [
       {
         startOffset: 0,
         endOffset:22,
-        value: "uses\n  a,\n  b,\n  c,\n  d,\n  e,\n  f;\n"
+        value: "uses\n  a,\n  b,\n  c,\n  d,\n  e,\n  f;"
       }
     ],
   }
