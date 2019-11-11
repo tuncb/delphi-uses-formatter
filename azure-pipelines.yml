@@ -3,7 +3,7 @@ trigger:
     include:
     - '*'  # must quote since "*" is a YAML reserved character; we want a string
   tags:
-    include: ['*']    
+    include: ['*']
 
 strategy:
   matrix:
@@ -44,4 +44,4 @@ steps:
     echo ">>> Publish"
     yarn deploy $(VSCODE_MARKETPLACE_TOKEN)
   displayName: Publish
-  condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'), eq(variables['Build.SourceBranch'], 'refs/heads/master'), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
+  condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))

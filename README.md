@@ -4,12 +4,13 @@ Formats uses sections of pascal files
 
 Formatting follows this style:
 
+```
 uses
   AllUnitsAreAlphabeticallySorted,
   UnitA,
   UnitB,
   UnitC;
-  
+```
 
 command: pascal-uses-formatter.formatUses
 when the extension is activated it also auto formats on save.
