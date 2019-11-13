@@ -24,7 +24,17 @@
                 "command": "pascal-uses-formatter.formatUses",
                 "title": "Format uses section"
             }
-        ]
+        ],
+        "configuration": {
+          "title": "pascal-uses-formatter",
+          "properties": {
+            "pascal-uses-formatter.formatOnSave": {
+              "type": "boolean",
+              "default": true,
+              "description": "Format uses section automatically after first activation"
+            }
+          }
+        }
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",

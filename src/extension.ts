@@ -53,6 +53,11 @@ function formatUsesOnSave(e: vscode.TextDocumentWillSaveEvent) {
     return;
   }
 
+  const doFormatOnSave = vscode.workspace.getConfiguration('pascal-uses-formatter').get('formatOnSave');
+  if (!doFormatOnSave) {
+    return;
+  }
+
   const doBeforeSave = async () => {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
