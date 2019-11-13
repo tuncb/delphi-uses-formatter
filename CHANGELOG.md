@@ -5,7 +5,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
-## [0.0.6]
+## [0.1.0]
  - add setting pascal-uses-formatter.formatOnSave
 
 ## [0.0.5]
