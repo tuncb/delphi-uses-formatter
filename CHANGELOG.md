@@ -5,6 +5,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [0.0.6]
+ - add setting pascal-uses-formatter.formatOnSave
+
 ## [0.0.5]
  - fixed extra new line inserted at the end of uses sections
  - fixed case sensitive sorting of units
