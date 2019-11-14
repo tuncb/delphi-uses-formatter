@@ -32,6 +32,35 @@
               "type": "boolean",
               "default": true,
               "description": "Format uses section automatically after first activation"
+            },
+            "pascal-uses-formatter.convertOldStyleSystemUnitNames": {
+              "type": "boolean",
+              "default": true,
+              "description": "Convert old style system units to dotted verison"
+            },
+            "pascal-uses-formatter.convertCustomUnitNames": {
+              "type": "boolean",
+              "default": true,
+              "description": "Convert unit names to defined ones"
+            },
+            "pascal-uses-formatter.customUnitNames": {
+              "type": "array",
+              "default": [],
+              "description": "Custom defined unit name conversions",
+              "items": {
+                "type": "object",
+                "title": "Custom unit names to convert",
+                "properties": {
+                    "old": {
+                        "type": "string",
+                        "description": "Old name to convert, case insensitive"
+                    },
+                    "new": {
+                        "type": "string",
+                        "description": "New name"
+                    }
+                }
+            },
             }
           }
         }
