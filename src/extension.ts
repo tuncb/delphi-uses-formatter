@@ -35,8 +35,13 @@ function formatDocument(editor: TextEditor, edit: TextEditorEdit)
   const separator = getSeparator(editor.options);
   const lineEnd = getLineEnd(doc.eol);
   const text = doc.getText();
-  vscode.window.showInformationMessage('Format uses extension BETA is formatting your document.');
+
   const newSections = formatText(text, separator, lineEnd);
+  if(newSections.length === 0)
+  {
+    vscode.window.showInformationMessage('pascal-uses-formatter: could not find any uses section.');
+  }
+
   newSections.forEach((section: ITextSection) => {
     const range = new Range(doc.positionAt(section.startOffset), doc.positionAt(section.endOffset));
     edit.replace(range, section.value);

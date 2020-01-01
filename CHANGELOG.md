@@ -5,6 +5,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [0.2.0]
+ - remove BETA warning message, we only show a message when no uses section can be found
+
 ## [0.1.0]
  - add setting pascal-uses-formatter.formatOnSave
 
