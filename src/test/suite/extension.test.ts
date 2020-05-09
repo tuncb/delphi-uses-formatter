@@ -48,7 +48,8 @@ suite('Extension Test Suite', () => {
     vscode.window.showInformationMessage('Start all tests.');
   });
 
-  test('Conversion tests', async () => {
+  test('Conversion tests', async function() {
+    this.timeout(0);
     const fileGlob = path.resolve(__dirname, '../../../testExamples', '*.original.test.pas');
     const files = glob.sync(fileGlob);
     return Promise.all(files.map(testFile));
