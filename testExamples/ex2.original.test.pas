@@ -1,4 +1,4 @@
-unit ex1;
+unit ex2;
 
 interface
 
