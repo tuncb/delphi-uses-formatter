@@ -4,6 +4,7 @@ All notable changes to the "pascal-uses-formatter" extension will be documented 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
 ## [Unreleased]
+ - add support for units in ifdef blocks
 
 ## [0.2.1]
  - fixed security warnings related to the minimist package
