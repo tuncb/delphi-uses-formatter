@@ -5,6 +5,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [0.2.1]
+ - fixed security warnings related to the minimist package
+
 ## [0.2.0]
  - remove BETA warning message, we only show a message when no uses section can be found
 
