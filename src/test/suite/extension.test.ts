@@ -40,7 +40,7 @@ const testFile = async (originalFileName: string): Promise<void> => {
   const changedText = testPair.originalDoc.getText();
   const correctDoc = testPair.correctDoc.getText();
 
-  assert.ok(correctDoc === changedText);
+  assert.ok(correctDoc === changedText, `conversion mismatch: ${originalFileName} and ${correctFileName}`);
 };
 
 suite('Extension Test Suite', () => {
