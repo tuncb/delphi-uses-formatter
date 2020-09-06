@@ -1,6 +1,5 @@
+import { assert } from 'chai';
 import { before } from 'mocha';
-
-const { assert } = require('chai');
 import * as path from 'path';
 import * as vscode from 'vscode';
 import glob = require('glob');

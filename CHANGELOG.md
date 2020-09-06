@@ -5,6 +5,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [0.2.2]
+ - do not sort files that do not have pascal or objectpascal language id automatically on save
+
 ## [0.2.1]
  - fixed security warnings related to the minimist package
 

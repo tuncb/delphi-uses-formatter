@@ -63,6 +63,11 @@ function formatUsesOnSave(e: vscode.TextDocumentWillSaveEvent) {
     return;
   }
 
+  const LANGUAGES = ['pascal', 'objectpascal'];
+  if (!LANGUAGES.includes(e.document.languageId)) {
+    return;
+  }
+
   const doBeforeSave = async () => {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
