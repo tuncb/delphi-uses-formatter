@@ -21,7 +21,7 @@ steps:
 
 - task: NodeTool@0
   inputs:
-    versionSpec: '8.x'
+    versionSpec: '12.x'
   displayName: 'Install Node.js'
 
 - bash: |
@@ -32,10 +32,10 @@ steps:
 
 - bash: |
     echo ">>> Compile vscode-test"
-    yarn --ignore-engines && yarn compile
+    yarn --frozen-lockfile --ignore-engines && yarn compile
     echo ">>> Compiled vscode-test"
     echo ">>> Run sample integration test"
-    yarn && yarn lint && yarn compile && yarn test
+    yarn lint && yarn compile && yarn test
   displayName: Run Tests
   env:
     DISPLAY: ':99.0'
