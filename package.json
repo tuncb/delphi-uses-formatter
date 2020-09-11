@@ -32,6 +32,14 @@
                     "type": "boolean",
                     "default": true,
                     "description": "Format uses section automatically after first activation"
+                },
+                "pascal-uses-formatter.overrideSortingOrder": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "default": [],
+                    "description": "Override default namespace sorting logic with custom namespace sorting logic. Inputted namespaces will be preferred by sorting logic"
                 }
             }
         }
