@@ -39,7 +39,7 @@
                         "type": "string"
                     },
                     "default": [],
-                    "description": "Override default namespace sorting. Configure sorting priority by adding namespace to array"
+                    "description": "Override default namespace sorting order. Configure sorting priority by adding namespace to array"
                 }
             }
         }

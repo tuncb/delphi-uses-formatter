@@ -25,15 +25,17 @@ const parseUnits = (text:string): string[] => {
     .split(',');
 };
 
-function formatUsesSection(units: string[], separator: string, lineEnd: string, overriddenNamespaceSortingArray: string[]): string
+function formatUsesSection(units: string[], separator: string, lineEnd: string, configuratbleSortingArray: string[]): string
 {
   const sortFun = (a: string, b: string) => {
-    for(let namespace of overriddenNamespaceSortingArray){
+    for(let namespace of configuratbleSortingArray){
         let normalizedNamespace = namespace.toLowerCase();
-        if(a.trim().toLocaleLowerCase().startsWith(normalizedNamespace) && !b.trim().toLocaleLowerCase().startsWith(normalizedNamespace)){
+        let normalizedA = a.trim().toLocaleLowerCase();
+        let normalizedB = b.trim().toLocaleLowerCase();
+        if(normalizedA.startsWith(normalizedNamespace) && !normalizedB.startsWith(normalizedNamespace)){
             return -1;
         }
-        else if(!a.trim().toLocaleLowerCase().startsWith(normalizedNamespace) && b.trim().toLocaleLowerCase().startsWith(normalizedNamespace)){
+        else if(!normalizedA.startsWith(normalizedNamespace) && normalizedB.startsWith(normalizedNamespace)){
             return 1;
         }
     }
@@ -44,12 +46,12 @@ function formatUsesSection(units: string[], separator: string, lineEnd: string, 
   return `uses${lineEnd}${separator}${formattedUnits};`;
 }
 
-export function formatText(text: string, separator: string, lineEnd: string, overriddenNamespaceSortingArray: string[]): ITextSection[] {
+export function formatText(text: string, separator: string, lineEnd: string, configuratbleSortingArray: string[]): ITextSection[] {
   return findUsesSections(text).map((section: ITextSection): ITextSection => {
     return {
       startOffset: section.startOffset,
       endOffset: section.endOffset,
-      value: formatUsesSection(parseUnits(section.value),  separator, lineEnd, overriddenNamespaceSortingArray)
+      value: formatUsesSection(parseUnits(section.value),  separator, lineEnd, configuratbleSortingArray)
     };
   });
 }
