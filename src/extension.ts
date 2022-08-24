@@ -40,9 +40,9 @@ function formatDocument(editor: TextEditor, edit: TextEditorEdit)
   const separator = getSeparator(editor.options);
   const lineEnd = getLineEnd(doc.eol);
   const text = doc.getText();
-  const configuratbleSortingArray = getOverriddenNamespacesArray();
+  const configurableSortingArray = getOverriddenNamespacesArray();
 
-  const newSections = formatText(text, separator, lineEnd, configuratbleSortingArray);
+  const newSections = formatText(text, separator, lineEnd, configurableSortingArray);
   if(newSections.length === 0)
   {
     vscode.window.showInformationMessage('pascal-uses-formatter: could not find any uses section.');

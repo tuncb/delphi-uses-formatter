@@ -25,10 +25,10 @@ const parseUnits = (text:string): string[] => {
     .split(',');
 };
 
-function formatUsesSection(units: string[], separator: string, lineEnd: string, configuratbleSortingArray: string[]): string
+function formatUsesSection(units: string[], separator: string, lineEnd: string, configurableSortingArray: string[]): string
 {
   const sortFun = (a: string, b: string) => {
-    for(let namespace of configuratbleSortingArray){
+    for(let namespace of configurableSortingArray){
         let normalizedNamespace = namespace.toLowerCase();
         let normalizedA = a.trim().toLocaleLowerCase();
         let normalizedB = b.trim().toLocaleLowerCase();
@@ -46,12 +46,12 @@ function formatUsesSection(units: string[], separator: string, lineEnd: string, 
   return `uses${lineEnd}${separator}${formattedUnits};`;
 }
 
-export function formatText(text: string, separator: string, lineEnd: string, configuratbleSortingArray: string[]): ITextSection[] {
+export function formatText(text: string, separator: string, lineEnd: string, configurableSortingArray: string[]): ITextSection[] {
   return findUsesSections(text).map((section: ITextSection): ITextSection => {
     return {
       startOffset: section.startOffset,
       endOffset: section.endOffset,
-      value: formatUsesSection(parseUnits(section.value),  separator, lineEnd, configuratbleSortingArray)
+      value: formatUsesSection(parseUnits(section.value),  separator, lineEnd, configurableSortingArray)
     };
   });
 }
