@@ -25,9 +25,20 @@ const parseUnits = (text:string): string[] => {
     .split(',');
 };
 
-function formatUsesSection(units: string[], separator: string, lineEnd: string): string
+function formatUsesSection(units: string[], separator: string, lineEnd: string, configuratbleSortingArray: string[]): string
 {
   const sortFun = (a: string, b: string) => {
+    for(let namespace of configuratbleSortingArray){
+        let normalizedNamespace = namespace.toLowerCase();
+        let normalizedA = a.trim().toLocaleLowerCase();
+        let normalizedB = b.trim().toLocaleLowerCase();
+        if(normalizedA.startsWith(normalizedNamespace) && !normalizedB.startsWith(normalizedNamespace)){
+            return -1;
+        }
+        else if(!normalizedA.startsWith(normalizedNamespace) && normalizedB.startsWith(normalizedNamespace)){
+            return 1;
+        }
+    }
     return a.localeCompare(b, undefined, {sensitivity: 'base'});
   };
 
@@ -35,12 +46,12 @@ function formatUsesSection(units: string[], separator: string, lineEnd: string):
   return `uses${lineEnd}${separator}${formattedUnits};`;
 }
 
-export function formatText(text: string, separator: string, lineEnd: string): ITextSection[] {
+export function formatText(text: string, separator: string, lineEnd: string, configuratbleSortingArray: string[]): ITextSection[] {
   return findUsesSections(text).map((section: ITextSection): ITextSection => {
     return {
       startOffset: section.startOffset,
       endOffset: section.endOffset,
-      value: formatUsesSection(parseUnits(section.value),  separator, lineEnd)
+      value: formatUsesSection(parseUnits(section.value),  separator, lineEnd, configuratbleSortingArray)
     };
   });
 }

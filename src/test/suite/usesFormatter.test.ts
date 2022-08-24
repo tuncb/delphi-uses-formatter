@@ -26,7 +26,7 @@ const test = (sample: TestSample): void =>
   const separator = "  ";
   const lineEnd = "\n";
 
-  const replaces = formatText(sample.input, separator, lineEnd);
+  const replaces = formatText(sample.input, separator, lineEnd, []);
   expect(replaces).to.eql(sample.output);
 };
 

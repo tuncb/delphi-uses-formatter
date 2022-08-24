@@ -6,6 +6,11 @@ interface IUsesFormatterState {
   context: vscode.ExtensionContext;
 }
 
+function getOverriddenNamespacesArray() : string[]
+{
+    return (vscode.workspace.getConfiguration('pascal-uses-formatter').get('overrideSortingOrder')) as Array<string>;
+}
+
 function getLineEnd(eol: EndOfLine): string
 {
   switch(eol) {
@@ -35,8 +40,9 @@ function formatDocument(editor: TextEditor, edit: TextEditorEdit)
   const separator = getSeparator(editor.options);
   const lineEnd = getLineEnd(doc.eol);
   const text = doc.getText();
+  const configuratbleSortingArray = getOverriddenNamespacesArray();
 
-  const newSections = formatText(text, separator, lineEnd);
+  const newSections = formatText(text, separator, lineEnd, configuratbleSortingArray);
   if(newSections.length === 0)
   {
     vscode.window.showInformationMessage('pascal-uses-formatter: could not find any uses section.');
