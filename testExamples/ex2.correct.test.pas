@@ -15,8 +15,9 @@ uses
   u,
   y;
 
+// will not be sorted due to extra k in front of uses
 implementation
-uses
+kuses
   b,
   c,
   f,
@@ -29,7 +30,7 @@ uses
   u,
   y;
 
-implementation
+// Will not be sorted, because it does not follow a valid interface/implementation section definition
 uses
   Generics.Collections.patched,
   MemoryGuard,

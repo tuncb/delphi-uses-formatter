@@ -5,14 +5,14 @@ export interface ITextSection {
 }
 
 const findUsesSections = (text: string): ITextSection[]  => {
-  const regex = /uses[\s\w.,]+;/g;
+  const regex = /(?:(?:interface|implementation|program\s+\S+;)\s+)(uses[\s\w.,]+;)/gid;
   const results: ITextSection[] = [];
   let match = null;
   while ((match = regex.exec(text)) !== null) {
     results.push({
-      startOffset: match.index,
-      endOffset: match.index + match[0].length,
-      value: match[0]
+        startOffset: match.index + match[0].length - match[1].length,
+        endOffset: match.index + match[0].length,
+        value: match[1]
     });
   }
   return results;
