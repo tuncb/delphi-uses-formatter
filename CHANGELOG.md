@@ -5,6 +5,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [0.3.0]
+ - add option overrideSortingOrder to override sort order for user selected units.
+ Thanks to kvrabec :)
+
 ## [0.2.2]
  - do not sort files that do not have pascal or objectpascal language id automatically on save
 

@@ -20,5 +20,8 @@ settings:
 
 pascal-uses-formatter.formatOnSave: when the extension is activated it also auto formats on save.
 
+pascal-uses-formatter.overrideSortingOrder: add specifics units to order them at the beginning of uses sections.
+
+![overrideSortingOrder](../other/configurableSortingArrayUse.gif)
 
 [![Build Status](https://dev.azure.com/tuncbahcecioglu/delphi-uses-formatter-CI/_apis/build/status/tuncb.delphi-uses-formatter?branchName=master)](https://dev.azure.com/tuncbahcecioglu/delphi-uses-formatter-CI/_build/latest?definitionId=1&branchName=master)
