@@ -20,7 +20,7 @@ Command: pascal-uses-formatter.formatUses
 
 * pascal-uses-formatter.**formatOnSave**: when the extension is activated it also auto formats on save.
 
-* pascal-uses-formatter.**overrideSortingOrder**: add specifics units to order them at the beginning of uses sections.
+* pascal-uses-formatter.**overrideSortingOrder**: add specific units to order them at the beginning of uses sections.
 
 ![overrideSortingOrder](./other/configurableSortingArrayUse.gif)
 
