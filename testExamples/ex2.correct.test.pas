@@ -30,8 +30,8 @@ kuses
   u,
   y;
 
-// Will not be sorted, because it does not follow a valid interface/implementation section definition
-uses
+{ Will be sorted, uses is preceded by comment block or compiler directive
+}uses
   Generics.Collections.patched,
   MemoryGuard,
   Optional,

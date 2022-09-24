@@ -30,14 +30,8 @@ kuses
   u,
   y;
 
-// Will not be sorted, because it does not follow a valid interface/implementation section definition
-uses
-  Generics.Collections.patched,
-  MemoryGuard,
-  Optional,
-  ProjectDB.DelphiFacade.FacadeManagedDataView,
-  ProjectDB.DelphiFacade.FacadeManagedDataViewFactory,
-  ProjectDB.DelphiFacade.FMDMeshEntityComponentData,
+{ Will be sorted, uses is preceded by comment block or compiler directive
+}uses
   ProjectDB.DelphiFacade.FMDMeshEntityResultData,
   ProjectDB.DelphiFacade.FMDNodeCoordinates,
   ProjectDB.DelphiFacade.FMOMesh,
@@ -45,10 +39,16 @@ uses
   ProjectDB.DelphiFacade.FMOMeshEntityPhasesState,
   ProjectDB.DelphiFacade.FMOPhase,
   ProjectDB.DelphiFacade.FMOStep,
+  ProjectDB.DelphiFacade.FacadeManagedDataView,
+  ProjectDB.DelphiFacade.FacadeManagedDataViewFactory,
   System.SysUtils,
   Xvtkwc.DataArray,
   Xvtkwc.Definitions,
   Xvtkwc.DllLoader,
+  Generics.Collections.patched,
+  MemoryGuard,
+  Optional,
+  ProjectDB.DelphiFacade.FMDMeshEntityComponentData,
   Xvtkwc.Piece,
   Xvtkwc.PvdItem,
   Xvtkwc.Writer;
