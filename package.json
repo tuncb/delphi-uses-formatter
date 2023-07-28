@@ -1,73 +1,76 @@
 {
-    "name": "pascal-uses-formatter",
-    "displayName": "pascal-uses-formatter",
-    "description": "sorts the uses section in pascal files",
-    "version": "0.3.0",
-    "publisher": "tuncb",
-    "repository": "https://github.com/tuncb/delphi-uses-formatter",
-    "license": "Apache-2.0",
-    "engines": {
-        "vscode": "^1.70.0"
-    },
-    "categories": [
-        "Other"
+  "name": "pascal-uses-formatter",
+  "displayName": "pascal-uses-formatter",
+  "description": "sorts the uses section in pascal files",
+  "version": "0.3.1",
+  "publisher": "tuncb",
+  "repository": "https://github.com/tuncb/delphi-uses-formatter",
+  "license": "Apache-2.0",
+  "engines": {
+    "vscode": "^1.70.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onLanguage:pascal",
+    "onLanguage:objectpascal",
+    "onCommand:pascal-uses-formatter.formatUses"
+  ],
+  "main": "./out/extension",
+  "contributes": {
+    "commands": [
+      {
+        "command": "pascal-uses-formatter.formatUses",
+        "title": "Format uses section"
+      }
     ],
-    "activationEvents": [
-        "onLanguage:pascal",
-        "onLanguage:objectpascal",
-        "onCommand:pascal-uses-formatter.formatUses"
-    ],
-    "main": "./out/extension",
-    "contributes": {
-        "commands": [
-            {
-                "command": "pascal-uses-formatter.formatUses",
-                "title": "Format uses section"
-            }
-        ],
-        "configuration": {
-            "title": "pascal-uses-formatter",
-            "properties": {
-                "pascal-uses-formatter.formatOnSave": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Format uses section automatically after first activation"
-                },
-                "pascal-uses-formatter.overrideSortingOrder": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "default": [],
-                    "description": "Override default namespace sorting order. Configure sorting priority by adding namespace to array"
-                }
-            }
+    "configuration": {
+      "title": "pascal-uses-formatter",
+      "properties": {
+        "pascal-uses-formatter.formatOnSave": {
+          "type": "boolean",
+          "default": true,
+          "description": "Format uses section automatically after first activation"
+        },
+        "pascal-uses-formatter.overrideSortingOrder": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "Override default namespace sorting order. Configure sorting priority by adding namespace to array"
         }
-    },
-    "scripts": {
-        "vscode:prepublish": "npm run compile",
-        "compile": "tsc -p ./",
-        "watch": "tsc -watch -p ./",
-        "lint": "eslint -c .eslintrc.js --ext .ts ./src",
-        "pretest": "npm run compile",
-        "test": "node ./out/test/runTests.js",
-        "deploy": "vsce publish -p"
-    },
-    "devDependencies": {
-        "@types/chai": "^4.1.7",
-        "@types/glob": "^7.1.1",
-        "@types/mocha": "^5.2.6",
-        "@types/node": "^16.11.7",
-        "@types/vscode": "^1.70.0",
-        "@typescript-eslint/eslint-plugin": "^5.34.0",
-        "@typescript-eslint/parser": "^5.34.0",
-        "chai": "^4.2.0",
-        "eslint": "^8.22.0",
-        "glob": "^7.1.4",
-        "mocha": "^6.2.3",
-        "source-map-support": "^0.5.12",
-        "typescript": "^4.7.4",
-        "vsce": "^2.10.0",
-        "@vscode/test-electron": "^2.1.5"
+      }
     }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint -c .eslintrc.js --ext .ts ./src",
+    "pretest": "npm run compile",
+    "test": "node ./out/test/runTests.js",
+    "deploy": "vsce publish -p"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/glob": "^7.1.1",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "^16.11.7",
+    "@types/vscode": "^1.70.0",
+    "@typescript-eslint/eslint-plugin": "^5.34.0",
+    "@typescript-eslint/parser": "^5.34.0",
+    "@vscode/test-electron": "^2.1.5",
+    "chai": "^4.2.0",
+    "eslint": "^8.22.0",
+    "glob": "^7.1.4",
+    "mocha": "^10.2.0",
+    "source-map-support": "^0.5.12",
+    "typescript": "^4.7.4",
+    "vsce": "^1.97.0"
+  },
+  "dependencies": {
+    "ci": "^2.2.0"
+  }
 }
