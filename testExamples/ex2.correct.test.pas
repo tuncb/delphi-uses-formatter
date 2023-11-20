@@ -15,8 +15,9 @@ uses
   u,
   y;
 
+// will not be sorted due to extra k in front of uses
 implementation
-uses
+kuses
   b,
   c,
   f,
@@ -29,8 +30,8 @@ uses
   u,
   y;
 
-implementation
-uses
+{ Will be sorted, uses is preceded by comment block or compiler directive
+}uses
   Generics.Collections.patched,
   MemoryGuard,
   Optional,
