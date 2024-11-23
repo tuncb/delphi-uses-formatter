@@ -1,4 +1,4 @@
-unit ex1;
+unit ex2;
 
 interface
 
@@ -15,13 +15,14 @@ uses
   u,
   y;
 
-// will not be sorted due to extra k in front of uses
+// will not be sorted due to extra k in front
 implementation
 kuses
   b,
   c,
   f,
   f,
+  z,
   g,
   h,
   k,
