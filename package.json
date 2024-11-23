@@ -2,7 +2,7 @@
   "name": "pascal-uses-formatter",
   "displayName": "pascal-uses-formatter",
   "description": "sorts the uses section in pascal files",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "publisher": "tuncb",
   "repository": "https://github.com/tuncb/delphi-uses-formatter",
   "license": "Apache-2.0",
@@ -54,23 +54,23 @@
     "deploy": "vsce publish -p"
   },
   "devDependencies": {
-    "@types/chai": "^4.1.7",
-    "@types/glob": "^7.1.1",
-    "@types/mocha": "^10.0.1",
-    "@types/node": "^16.11.7",
-    "@types/vscode": "^1.70.0",
-    "@typescript-eslint/eslint-plugin": "^5.34.0",
-    "@typescript-eslint/parser": "^5.34.0",
-    "@vscode/test-electron": "^2.1.5",
-    "chai": "^4.2.0",
-    "eslint": "^8.22.0",
-    "glob": "^7.1.4",
-    "mocha": "^10.2.0",
-    "source-map-support": "^0.5.12",
-    "typescript": "^4.7.4",
-    "vsce": "^1.97.0"
+    "@types/chai": "^4.3.20",
+    "@types/glob": "^7.2.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^16.18.119",
+    "@types/vscode": "^1.95.0",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
+    "@vscode/test-electron": "^2.4.1",
+    "@vscode/vsce": "^3.2.1",
+    "chai": "^4.5.0",
+    "eslint": "^8.57.1",
+    "glob": "^7.2.3",
+    "mocha": "^10.8.2",
+    "source-map-support": "^0.5.21",
+    "typescript": "^4.9.5"
   },
   "dependencies": {
-    "ci": "^2.2.0"
+    "ci": "^2.3.0"
   }
 }
