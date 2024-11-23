@@ -4,18 +4,59 @@ export interface ITextSection {
   value: string;
 }
 
-const findUsesSections = (text: string): ITextSection[] => {
-  const regex = /(?:^|[\s}])(uses[\s\w.,]+;)/gid;
-  const results: ITextSection[] = [];
+const findUsesWords = (text: string): number[] => {
+  const regexWholeWordUses = /(\buses\b)/gi;
   let match = null;
-  while ((match = regex.exec(text)) !== null) {
-    results.push({
-      startOffset: match.index + match[0].length - match[1].length,
-      endOffset: match.index + match[0].length,
-      value: match[1]
-    });
+
+  const res: number[] = [];
+
+  while ((match = regexWholeWordUses.exec(text)) !== null) {
+    res.push(match.index);
   }
-  return results;
+
+  return res;
+};
+
+const isInComment = (text: string, index: number): boolean => {
+  if (index < 0 || index >= text.length) {
+    throw new Error('Invalid index');
+  }
+
+  for (let i = index; i > 0; i--) {
+    if (text[i] === '\n') {
+      return false;
+    }
+    if (text[i] === '{') {
+      return true;
+    }
+    if (text[i] === '/' && text[i - 1] === '/') {
+      return true;
+    }
+  }
+  return false;
+};
+
+const findUsesBlock = (text: string, index: number): ITextSection | null => {
+  const end = text.indexOf(';', index);
+  if (end === -1) {
+    return null;
+  }
+  return {
+    startOffset: index,
+    endOffset: end + 1,
+    value: text.substring(index, end + 1)
+  };
+};
+
+const findUsesSections = (text: string): ITextSection[] => {
+
+  return findUsesWords(text).filter((index: number) => {
+    return !isInComment(text, index);
+  }).map((index: number) => {
+    return findUsesBlock(text, index);
+  }).filter((section: ITextSection | null) => {
+    return section !== null;
+  });
 };
 
 const parseUnits = (text: string): string[] => {
