@@ -15,7 +15,7 @@ uses
   u,
   y;
 
-// will not be sorted due to extra k in front
+// will not be sorted due to extra k in front of the word uses
 implementation
 kuses
   b,
