@@ -29,7 +29,6 @@ uses
   u,
   y;
 
-implementation
 uses
   Generics.Collections.patched,
   MemoryGuard,
