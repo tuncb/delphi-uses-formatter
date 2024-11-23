@@ -1,4 +1,4 @@
-import { assert } from 'chai';
+import { assert, expect } from 'chai';
 import { before } from 'mocha';
 import * as path from 'path';
 import * as vscode from 'vscode';
@@ -6,7 +6,7 @@ import glob = require('glob');
 
 const findCorrectFileName = (originalFileName: string) => {
   const originalPos = originalFileName.lastIndexOf('.original');
-  return `${originalFileName.substr(0, originalPos)}.correct.test.pas`;
+  return `${originalFileName.substring(0, originalPos)}.correct.test.pas`;
 };
 
 interface ITestPairDoc {
@@ -14,19 +14,16 @@ interface ITestPairDoc {
   correctDoc: vscode.TextDocument;
 }
 
-const openTextDocument = async (fileName: string): Promise<vscode.TextDocument> => {
-  return Promise.resolve(vscode.workspace.openTextDocument(fileName));
-};
-
 const openTestPair = async (originalFileName: string, correctFileName: string): Promise<ITestPairDoc> => {
-  const originalDoc = await openTextDocument(originalFileName);
-  const correctDoc = await openTextDocument(correctFileName);
+  const originalDoc = await vscode.workspace.openTextDocument(originalFileName);
+  const correctDoc = await vscode.workspace.openTextDocument(correctFileName);
 
-  return {originalDoc, correctDoc};
+  return { originalDoc, correctDoc };
 };
 
 const testFile = async (originalFileName: string): Promise<void> => {
   const correctFileName = findCorrectFileName(originalFileName);
+  console.log(originalFileName, correctFileName);
   const testPair = await openTestPair(originalFileName, correctFileName);
   await vscode.window.showTextDocument(testPair.originalDoc);
 
@@ -39,7 +36,10 @@ const testFile = async (originalFileName: string): Promise<void> => {
   const changedText = testPair.originalDoc.getText();
   const correctDoc = testPair.correctDoc.getText();
 
-  assert.ok(correctDoc === changedText);
+  expect(changedText).to.equal(correctDoc);
+
+  await vscode.commands.executeCommand('workbench.action.revertAndCloseActiveEditor');
+  await vscode.commands.executeCommand('workbench.action.closeAllEditors');
 };
 
 suite('Extension Test Suite', () => {
@@ -50,6 +50,8 @@ suite('Extension Test Suite', () => {
   test('Conversion tests', async () => {
     const fileGlob = path.resolve(__dirname, '../../../testExamples', '*.original.test.pas');
     const files = glob.sync(fileGlob);
-    return Promise.all(files.map(testFile));
+    for (const file of files) {
+      await testFile(file);
+    }
   });
 });
