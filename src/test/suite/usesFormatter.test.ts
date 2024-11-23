@@ -3,14 +3,22 @@ import { formatText, ITextSection } from '../../usesFormatter';
 var expect = require('chai').expect;
 var {describe, it} = require('mocha');
 
+interface ITestInput {
+  text: string;
+  configurableSortingArray: string[];
+}
+
 interface TestSample {
-  input: string;
+  input: ITestInput;
   output: ITextSection[];
 }
 
 const sampleTexts: TestSample[] = [
   {
-    input: "uses d, c, b, e, f, a;",
+    input: {
+      text: "uses d, c, b, e, f, a;",
+      configurableSortingArray: []
+    },
     output: [
       {
         startOffset: 0,
@@ -18,7 +26,21 @@ const sampleTexts: TestSample[] = [
         value: "uses\n  a,\n  b,\n  c,\n  d,\n  e,\n  f;"
       }
     ],
-  }
+  },
+  {
+    input: {
+      text: "uses d, c, b, e, f, a;",
+      configurableSortingArray: ["c", "f"]
+    },
+    output: [
+      {
+        startOffset: 0,
+        endOffset:22,
+        value: "uses\n  c,\n  f,\n  a,\n  b,\n  d,\n  e;"
+      }
+    ],
+  },
+
 ];
 
 const test = (sample: TestSample): void =>
@@ -26,7 +48,7 @@ const test = (sample: TestSample): void =>
   const separator = "  ";
   const lineEnd = "\n";
 
-  const replaces = formatText(sample.input, separator, lineEnd);
+  const replaces = formatText(sample.input.text, separator, lineEnd, sample.input.configurableSortingArray);
   expect(replaces).to.eql(sample.output);
 };
 
