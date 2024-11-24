@@ -14,8 +14,7 @@
   ],
   "activationEvents": [
     "onLanguage:pascal",
-    "onLanguage:objectpascal",
-    "onCommand:pascal-uses-formatter.formatUses"
+    "onLanguage:objectpascal"
   ],
   "main": "./out/extension",
   "contributes": {
