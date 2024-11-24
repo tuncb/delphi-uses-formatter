@@ -39,6 +39,19 @@
           },
           "default": [],
           "description": "Override default namespace sorting order. Configure sorting priority by adding namespace to array"
+        },
+        "pascal-uses-formatter.formattingStyle": {
+          "type": "string",
+          "enum": [
+            "Comma at the end",
+            "Comma at the beginning"
+          ],
+          "markdownEnumDescriptions": [
+            "Unit1,",
+            ", Unit1"
+          ],
+          "default": "Comma at the end",
+          "description": "Formatting style for units"
         }
       }
     }
