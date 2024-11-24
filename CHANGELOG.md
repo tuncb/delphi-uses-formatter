@@ -5,6 +5,14 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [0.3.4]
+  Fix sorting when uses keyword is not used as a whole word.
+
+## [0.3.3]
+  Fix sorting when uses keyword is not used as a whole word. Thanks to daveweij.
+
+## [0.3.2]
+  Dependency update.
 ## [0.3.0]
  - add option overrideSortingOrder to override sort order for user selected units.
  Thanks to kvrabec :)
