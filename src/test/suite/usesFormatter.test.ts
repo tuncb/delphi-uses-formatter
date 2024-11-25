@@ -1,11 +1,11 @@
-import { formatText, ITextSection } from '../../usesFormatter';
+import { formatText, FormattingOptions, ITextSection, UnitFormattingType } from '../../usesFormatter';
 
 var expect = require('chai').expect;
 var { describe, it } = require('mocha');
 
 interface ITestInput {
   text: string;
-  configurableSortingArray: string[];
+  options: FormattingOptions;
 }
 
 interface TestSample {
@@ -17,7 +17,10 @@ const sampleTexts: TestSample[] = [
   {
     input: {
       text: "uses d, c, b, e, f, a;",
-      configurableSortingArray: []
+      options: {
+        configurableSortingArray: [],
+        unitFormattingType: UnitFormattingType.commaLast
+      }
     },
     output: [
       {
@@ -30,7 +33,10 @@ const sampleTexts: TestSample[] = [
   {
     input: {
       text: "uses d, c, b, e, f, a;",
-      configurableSortingArray: ["c", "f"]
+      options: {
+        configurableSortingArray: ["c", "f"],
+        unitFormattingType: UnitFormattingType.commaLast
+      }
     },
     output: [
       {
@@ -43,7 +49,10 @@ const sampleTexts: TestSample[] = [
   {
     input: {
       text: "}uses d, c, b, e, f, a;",
-      configurableSortingArray: ["c", "f"]
+      options: {
+        configurableSortingArray: ["c", "f"],
+        unitFormattingType: UnitFormattingType.commaLast
+      }
     },
     output: [
       {
@@ -56,10 +65,34 @@ const sampleTexts: TestSample[] = [
   {
     input: {
       text: "kuses d, c, b, e, f, a;",
-      configurableSortingArray: ["c", "f"]
+      options: {
+        configurableSortingArray: ["c", "f"],
+        unitFormattingType: UnitFormattingType.commaLast
+      }
     },
     output: [],
   },
+  {
+    input: {
+      text: "uses  Unit4,  Unit2,  Unit3,  Unit1;",
+      options: {
+        configurableSortingArray: [],
+        unitFormattingType: UnitFormattingType.commaFirst,
+      }
+    },
+    output: [
+      {
+        startOffset: 0,
+        endOffset: 36,
+        value: `uses
+    Unit1
+  , Unit2
+  , Unit3
+  , Unit4
+  ;`
+      }
+    ],
+  }
 
 ];
 
@@ -67,7 +100,7 @@ const test = (sample: TestSample): void => {
   const separator = "  ";
   const lineEnd = "\n";
 
-  const replaces = formatText(sample.input.text, separator, lineEnd, sample.input.configurableSortingArray);
+  const replaces = formatText(sample.input.text, separator, lineEnd, sample.input.options);
   expect(replaces).to.eql(sample.output);
 };
 
