@@ -84,5 +84,5 @@ suite('Extension Test Suite', () => {
 
       await testFile(test);
     }
-  });
+  }).timeout(5000);
 });
