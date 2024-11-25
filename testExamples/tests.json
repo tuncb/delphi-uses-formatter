@@ -1,0 +1,28 @@
+{
+  "tests": [
+    {
+      "originalFile": "ex1.original.test.pas",
+      "correctFile": "ex1.correct.test.pas",
+      "options": {
+        "overrideSortingOrder": [],
+        "formattingStyle": "Comma at the end"
+      }
+    },
+    {
+      "originalFile": "ex2.original.test.pas",
+      "correctFile": "ex2.correct.test.pas",
+      "options": {
+        "overrideSortingOrder": [],
+        "formattingStyle": "Comma at the end"
+      }
+    },
+    {
+      "originalFile": "ex3.original.test.pas",
+      "correctFile": "ex3.correct.test.pas",
+      "options": {
+        "overrideSortingOrder": [],
+        "formattingStyle": "Comma at the beginning"
+      }
+    }
+  ]
+}

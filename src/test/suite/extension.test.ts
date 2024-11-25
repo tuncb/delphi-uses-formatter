@@ -1,13 +1,23 @@
 import { assert, expect } from 'chai';
-import { before } from 'mocha';
-import * as path from 'path';
+import { before, after } from 'mocha';
 import * as vscode from 'vscode';
-import glob = require('glob');
+import * as fs from 'fs';
+import path = require('path');
 
-const findCorrectFileName = (originalFileName: string) => {
-  const originalPos = originalFileName.lastIndexOf('.original');
-  return `${originalFileName.substring(0, originalPos)}.correct.test.pas`;
-};
+interface FormattingRawData {
+  overrideSortingOrder: string[];
+  formattingStyle: string;
+}
+
+interface TestSample {
+  originalFile: string;
+  correctFile: string;
+  options: FormattingRawData;
+}
+
+interface TestsData {
+  tests: TestSample[];
+}
 
 interface ITestPairDoc {
   originalDoc: vscode.TextDocument;
@@ -21,12 +31,19 @@ const openTestPair = async (originalFileName: string, correctFileName: string): 
   return { originalDoc, correctDoc };
 };
 
-const testFile = async (originalFileName: string): Promise<void> => {
-  const correctFileName = findCorrectFileName(originalFileName);
-  console.log(originalFileName, correctFileName);
-  const testPair = await openTestPair(originalFileName, correctFileName);
-  await vscode.window.showTextDocument(testPair.originalDoc);
+const getAbsolutePath = (fileName: string): string => path.resolve(__dirname, fileName);
 
+
+const updateConfiguration = async (options: FormattingRawData) => {
+  await vscode.workspace.getConfiguration('pascal-uses-formatter').update('overrideSortingOrder', options.overrideSortingOrder, vscode.ConfigurationTarget.Global);
+  await vscode.workspace.getConfiguration('pascal-uses-formatter').update('formattingStyle', options.formattingStyle, vscode.ConfigurationTarget.Global);
+};
+
+const testFile = async (sample: TestSample): Promise<void> => {
+  const testPair = await openTestPair(sample.originalFile, sample.correctFile);
+  await updateConfiguration(sample.options);
+
+  await vscode.window.showTextDocument(testPair.originalDoc);
   await vscode.commands.executeCommand('pascal-uses-formatter.formatUses');
 
   const extension = await vscode.extensions.getExtension('tuncb.pascal-uses-formatter');
@@ -43,15 +60,29 @@ const testFile = async (originalFileName: string): Promise<void> => {
 };
 
 suite('Extension Test Suite', () => {
+  let currentOptions: FormattingRawData = { overrideSortingOrder: [], formattingStyle: '' };
+
   before(() => {
+    currentOptions = {
+      overrideSortingOrder: vscode.workspace.getConfiguration('pascal-uses-formatter').get('overrideSortingOrder') as string[],
+      formattingStyle: vscode.workspace.getConfiguration('pascal-uses-formatter').get('formattingStyle') as string
+    };
     vscode.window.showInformationMessage('Start all tests.');
   });
 
+  after(async () => {
+    await updateConfiguration(currentOptions);
+  });
+
   test('Conversion tests', async () => {
-    const fileGlob = path.resolve(__dirname, '../../../testExamples', '*.original.test.pas');
-    const files = glob.sync(fileGlob);
-    for (const file of files) {
-      await testFile(file);
+    const rawData = fs.readFileSync(getAbsolutePath('../../../testExamples/tests.json'), 'utf8');
+    const testsData: TestsData = JSON.parse(rawData);
+
+    for (const test of testsData.tests) {
+      test.originalFile = getAbsolutePath(`../../../testExamples/${test.originalFile}`);
+      test.correctFile = getAbsolutePath(`../../../testExamples/${test.correctFile}`);
+
+      await testFile(test);
     }
   });
 });
