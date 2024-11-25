@@ -4,6 +4,16 @@ export interface ITextSection {
   value: string;
 }
 
+export enum UnitFormattingType {
+  commaFirst,
+  commaLast
+}
+
+export interface FormattingOptions {
+  configurableSortingArray: string[];
+  unitFormattingType: UnitFormattingType;
+}
+
 const findUsesWords = (text: string): number[] => {
   const regexWholeWordUses = /(\buses\b)/gi;
   let match = null;
@@ -66,9 +76,9 @@ const parseUnits = (text: string): string[] => {
     .split(',');
 };
 
-function formatUsesSection(units: string[], separator: string, lineEnd: string, configurableSortingArray: string[]): string {
+function formatUsesSection(units: string[], separator: string, lineEnd: string, formattingOptions: FormattingOptions): string {
   const sortFun = (a: string, b: string) => {
-    for (let namespace of configurableSortingArray) {
+    for (let namespace of formattingOptions.configurableSortingArray) {
       let normalizedNamespace = namespace.toLowerCase();
       let normalizedA = a.trim().toLocaleLowerCase();
       let normalizedB = b.trim().toLocaleLowerCase();
@@ -82,16 +92,22 @@ function formatUsesSection(units: string[], separator: string, lineEnd: string, 
     return a.localeCompare(b, undefined, { sensitivity: 'base' });
   };
 
-  const formattedUnits = units.sort(sortFun).join(`,${lineEnd}${separator}`);
-  return `uses${lineEnd}${separator}${formattedUnits};`;
+  if (formattingOptions.unitFormattingType === UnitFormattingType.commaLast) {
+    const formattedUnits = units.sort(sortFun).join(`,${lineEnd}${separator}`);
+    return `uses${lineEnd}${separator}${formattedUnits};`;
+  }
+  else {
+    const formattedUnits = units.sort(sortFun).join(`${lineEnd}${separator}, `);
+    return `uses${lineEnd}${separator}${separator}${formattedUnits}${lineEnd}${separator};`;
+  }
 }
 
-export function formatText(text: string, separator: string, lineEnd: string, configurableSortingArray: string[]): ITextSection[] {
+export function formatText(text: string, separator: string, lineEnd: string, formattingOptions: FormattingOptions): ITextSection[] {
   return findUsesSections(text).map((section: ITextSection): ITextSection => {
     return {
       startOffset: section.startOffset,
       endOffset: section.endOffset,
-      value: formatUsesSection(parseUnits(section.value), separator, lineEnd, configurableSortingArray)
+      value: formatUsesSection(parseUnits(section.value), separator, lineEnd, formattingOptions)
     };
   });
 }

@@ -2,7 +2,7 @@
   "name": "pascal-uses-formatter",
   "displayName": "pascal-uses-formatter",
   "description": "sorts the uses section in pascal files",
-  "version": "0.3.4",
+  "version": "0.4.0",
   "publisher": "tuncb",
   "repository": "https://github.com/tuncb/delphi-uses-formatter",
   "license": "Apache-2.0",
@@ -14,8 +14,7 @@
   ],
   "activationEvents": [
     "onLanguage:pascal",
-    "onLanguage:objectpascal",
-    "onCommand:pascal-uses-formatter.formatUses"
+    "onLanguage:objectpascal"
   ],
   "main": "./out/extension",
   "contributes": {
@@ -40,6 +39,19 @@
           },
           "default": [],
           "description": "Override default namespace sorting order. Configure sorting priority by adding namespace to array"
+        },
+        "pascal-uses-formatter.formattingStyle": {
+          "type": "string",
+          "enum": [
+            "Comma at the end",
+            "Comma at the beginning"
+          ],
+          "markdownEnumDescriptions": [
+            "Unit1,",
+            ", Unit1"
+          ],
+          "default": "Comma at the end",
+          "description": "Formatting style for units"
         }
       }
     }

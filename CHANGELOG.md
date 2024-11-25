@@ -5,6 +5,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [0.4.0]
+  Add new formatting style comma at the beginning. Thanks to radkomoder.
+
 ## [0.3.4]
   Fix sorting when uses keyword is not used as a whole word.
 
