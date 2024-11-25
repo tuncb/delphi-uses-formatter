@@ -1,19 +1,25 @@
 import * as vscode from 'vscode';
-import { formatText, ITextSection } from './usesFormatter';
+import { formatText, FormattingOptions, ITextSection, UnitFormattingType } from './usesFormatter';
 import { TextEditor, TextEditorEdit, Range, EndOfLine, TextEditorOptions } from 'vscode';
 
 interface IUsesFormatterState {
   context: vscode.ExtensionContext;
 }
 
-function getOverriddenNamespacesArray() : string[]
-{
-    return (vscode.workspace.getConfiguration('pascal-uses-formatter').get('overrideSortingOrder')) as Array<string>;
+function getFormattingOptions(): FormattingOptions {
+  const configurableSortingArray = vscode.workspace.getConfiguration('pascal-uses-formatter').get('overrideSortingOrder') as string[];
+  const unitFormattingTypeName = vscode.workspace.getConfiguration('pascal-uses-formatter').get('formattingStyle') as string;
+
+  const unitFormattingType = unitFormattingTypeName === "Comma at the beginning" ? UnitFormattingType.commaFirst : UnitFormattingType.commaLast;
+
+  return {
+    configurableSortingArray,
+    unitFormattingType
+  };
 }
 
-function getLineEnd(eol: EndOfLine): string
-{
-  switch(eol) {
+function getLineEnd(eol: EndOfLine): string {
+  switch (eol) {
     case EndOfLine.LF:
       return "\n";
     case EndOfLine.CRLF:
@@ -22,10 +28,9 @@ function getLineEnd(eol: EndOfLine): string
   return "\n";
 }
 
-function getSeparator(options: TextEditorOptions): string
-{
+function getSeparator(options: TextEditorOptions): string {
   if (options.insertSpaces) {
-    if (options.tabSize && (typeof(options.tabSize) === "number")) {
+    if (options.tabSize && (typeof (options.tabSize) === "number")) {
       const tabSize = options.tabSize as number;
       return " ".repeat(tabSize);
     }
@@ -34,17 +39,15 @@ function getSeparator(options: TextEditorOptions): string
   return "\t";
 }
 
-function formatDocument(editor: TextEditor, edit: TextEditorEdit)
-{
+function formatDocument(editor: TextEditor, edit: TextEditorEdit) {
   const doc = editor.document;
   const separator = getSeparator(editor.options);
   const lineEnd = getLineEnd(doc.eol);
   const text = doc.getText();
-  const configurableSortingArray = getOverriddenNamespacesArray();
+  const options = getFormattingOptions();
 
-  const newSections = formatText(text, separator, lineEnd, configurableSortingArray);
-  if(newSections.length === 0)
-  {
+  const newSections = formatText(text, separator, lineEnd, options);
+  if (newSections.length === 0) {
     vscode.window.showInformationMessage('pascal-uses-formatter: could not find any uses section.');
   }
 
@@ -97,7 +100,7 @@ function subscribe(state: IUsesFormatterState) {
 export function activate(context: vscode.ExtensionContext) {
   console.log('Format uses extension BETA is activated');
 
-  let state: IUsesFormatterState = {context};
+  let state: IUsesFormatterState = { context };
   subscribe(state);
 }
 
