@@ -74,6 +74,16 @@ const sampleTexts: TestSample[] = [
   },
   {
     input: {
+      text: "{\n   she uses tools that match her needs   \n}\n foo();",
+      options: {
+        configurableSortingArray: [],
+        unitFormattingType: UnitFormattingType.commaLast
+      }
+    },
+    output: [],
+  },
+  {
+    input: {
       text: "uses  Unit4,  Unit2,  Unit3,  Unit1;",
       options: {
         configurableSortingArray: [],
