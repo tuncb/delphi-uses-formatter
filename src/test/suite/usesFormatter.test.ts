@@ -84,7 +84,7 @@ const sampleTexts: TestSample[] = [
   },
   {
     input: {
-      text: "uses  Unit4,  Unit2,  Unit3,  Unit1;",
+      text: "  uses  Unit4,  Unit2,  Unit3,  Unit1;",
       options: {
         configurableSortingArray: [],
         unitFormattingType: UnitFormattingType.commaFirst,
@@ -93,7 +93,7 @@ const sampleTexts: TestSample[] = [
     output: [
       {
         startOffset: 0,
-        endOffset: 36,
+        endOffset: 38,
         value: `uses
     Unit1
   , Unit2

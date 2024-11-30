@@ -18,6 +18,10 @@ const isWhitespace = (char: string): boolean => {
   return /\s/.test(char);
 };
 
+const isSpaceOrTab = (char: string): boolean => {
+  return char === ' ' || char === '\t';
+};
+
 const isAlphanumeric = (char: string): boolean => {
   return /^[a-zA-Z0-9]$/.test(char);
 };
@@ -122,6 +126,22 @@ const isNewLineNeeded = (text: string, index: number): boolean => {
   return true;
 };
 
+const findTrimmedStart = (text: string, startOffset: number): number => {
+  if (startOffset === 0) {
+    return startOffset;
+  }
+
+  let nrSpaceOrTab = 0;
+  for (let i = startOffset - 1; i >= 0; i--) {
+    if (isSpaceOrTab(text[i])) {
+      nrSpaceOrTab++;
+    } else {
+      break;
+    }
+  }
+  return startOffset - nrSpaceOrTab;
+};
+
 function formatUsesSection(units: string[], separator: string, lineEnd: string, formattingOptions: FormattingOptions): string {
   const sortFun = (a: string, b: string) => {
     for (let namespace of formattingOptions.configurableSortingArray) {
@@ -150,9 +170,10 @@ function formatUsesSection(units: string[], separator: string, lineEnd: string, 
 
 export function formatText(text: string, separator: string, lineEnd: string, formattingOptions: FormattingOptions): ITextSection[] {
   return findUsesSections(text).map((section: ITextSection): ITextSection => {
-    const startText = isNewLineNeeded(text, section.startOffset) ? lineEnd : '';
+    const trimmedStart = findTrimmedStart(text, section.startOffset);
+    const startText = isNewLineNeeded(text, trimmedStart) ? lineEnd : '';
     return {
-      startOffset: section.startOffset,
+      startOffset: trimmedStart,
       endOffset: section.endOffset,
       value: `${startText}${formatUsesSection(parseUnits(section.value), separator, lineEnd, formattingOptions)}`
     };

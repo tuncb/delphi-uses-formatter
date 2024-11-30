@@ -5,7 +5,7 @@ unit ex4;
 interface
 
 // This uses should be parsed and correctly sorted.
-uses a, x, b, z, y;
+ uses a, x, b, z, y;
 
 {This uses should be parsed and correctly sorted.}uses b, c, a;
 (*This uses should be parsed and correctly sorted.*)uses b, c,a;
