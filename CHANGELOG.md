@@ -3,38 +3,40 @@ All notable changes to the "pascal-uses-formatter" extension will be documented 
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [Unreleased]
+## [0.4.1]
+- Fix parsing issues related to comments.
+- Better uses section creation: Trim whitespace, start of a new line if the section starts after comments.
 
 ## [0.4.0]
-  Add new formatting style comma at the beginning. Thanks to radkomoder.
+ - Add new formatting style comma at the beginning. Thanks to radkomoder.
 
 ## [0.3.4]
-  Fix sorting when uses keyword is not used as a whole word.
+ - Fix sorting when uses keyword is not used as a whole word.
 
 ## [0.3.3]
-  Fix sorting when uses keyword is not used as a whole word. Thanks to daveweij.
+ - Fix sorting when uses keyword is not used as a whole word. Thanks to daveweij.
 
 ## [0.3.2]
-  Dependency update.
+ - Dependency update.
+
 ## [0.3.0]
- - add option overrideSortingOrder to override sort order for user selected units.
- Thanks to kvrabec :)
+ - Add option overrideSortingOrder to override sort order for user selected units. Thanks to kvrabec.
 
 ## [0.2.2]
- - do not sort files that do not have pascal or objectpascal language id automatically on save
+ - Do not sort files that do not have pascal or objectpascal language id automatically on save
 
 ## [0.2.1]
- - fixed security warnings related to the minimist package
+ - Fixed security warnings related to the minimist package
 
 ## [0.2.0]
- - remove BETA warning message, we only show a message when no uses section can be found
+ - Remove BETA warning message, we only show a message when no uses section can be found
 
 ## [0.1.0]
- - add setting pascal-uses-formatter.formatOnSave
+ - Add setting pascal-uses-formatter.formatOnSave
 
 ## [0.0.5]
- - fixed extra new line inserted at the end of uses sections
- - fixed case sensitive sorting of units
+ - Fixed extra new line inserted at the end of uses sections
+ - Fixed case sensitive sorting of units
 
 ## [0.0.4]
 - Initial release
