@@ -22,10 +22,6 @@ const isSpaceOrTab = (char: string): boolean => {
   return char === ' ' || char === '\t';
 };
 
-const isAlphanumeric = (char: string): boolean => {
-  return /^[a-zA-Z0-9]$/.test(char);
-};
-
 const moveUntil = (text: string, index: number, nrChars: number, pred: (str: string) => boolean): number => {
   for (let i = index; i < text.length - nrChars + 1; i++) {
     if (pred(text.substring(i, i + nrChars))) {
@@ -38,47 +34,36 @@ const moveUntil = (text: string, index: number, nrChars: number, pred: (str: str
 const findUsesBlocks = (text: string): number[] => {
   const usesIndices = [];
   let index = 0;
-  let isNewWord = true;
 
   while (index < text.length) {
     const ch = text[index];
     if (ch === '{') {
       index = moveUntil(text, index + 1, 1, (str) => str === '}') + 1;
-      isNewWord = true;
     }
     else if (ch === '/') {
       if (text[index + 1] === '/') {
         index = moveUntil(text, index + 2, 1, (str) => str === '\n') + 1;
-        isNewWord = true;
       }
     } else if (ch === '(') {
       if (text[index + 1] === '*') {
         index = moveUntil(text, index + 2, 2, (str) => str === '*)') + 2;
-        isNewWord = true;
       } else {
-        index++;
-        isNewWord = false;
+        index = moveUntil(text, index + 1, 1, (str) => isWhitespace(str));
       }
     }
     else if (ch === "'") {
       index = moveUntil(text, index + 1, 1, (str) => str === "'");
       index = moveUntil(text, index + 1, 1, (str) => isWhitespace(str));
-      isNewWord = true;
     }
     else if (isWhitespace(ch)) {
-      isNewWord = true;
-      index++;
+      index = moveUntil(text, index + 1, 1, (str) => !isWhitespace(str));
     }
-    else if (isAlphanumeric(ch)) {
+    else {
       const next = moveUntil(text, index + 1, 1, (str) => isWhitespace(str));
-      if ((isNewWord) && text.substring(index, next).toLowerCase() === 'uses') {
+      if (text.substring(index, next).toLowerCase() === 'uses') {
         usesIndices.push(index);
       }
       index = next;
-      isNewWord = true;
-    } else {
-      index++;
-      isNewWord = false;
     }
   }
 
