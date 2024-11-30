@@ -13,14 +13,14 @@ uses
   z;
 
 {This uses should be parsed and correctly sorted.}
-uses 
-  a, 
-  b, 
+uses
+  a,
+  b,
   c;
 (*This uses should be parsed and correctly sorted.*)
-uses 
-  a, 
-  b, 
+uses
+  a,
+  b,
   c;
 
 implementation

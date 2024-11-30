@@ -56,12 +56,17 @@ const findUsesBlocks = (text: string): number[] => {
         isNewWord = false;
       }
     }
+    else if (ch === "'") {
+      index = moveUntil(text, index + 1, 1, (str) => str === "'");
+      index = moveUntil(text, index + 1, 1, (str) => isWhitespace(str));
+      isNewWord = true;
+    }
     else if (isWhitespace(ch)) {
       isNewWord = true;
       index++;
     }
     else if (isAlphanumeric(ch)) {
-      const next = moveUntil(text, index + 1, 1, (str) => !isAlphanumeric(str));
+      const next = moveUntil(text, index + 1, 1, (str) => isWhitespace(str));
       if ((isNewWord) && text.substring(index, next).toLowerCase() === 'uses') {
         usesIndices.push(index);
       }
@@ -104,6 +109,19 @@ const parseUnits = (text: string): string[] => {
     .split(',');
 };
 
+const isNewLineNeeded = (text: string, index: number): boolean => {
+  if (index === 0) {
+    return false;
+  }
+
+  const prevChar = text[index - 1];
+  if (prevChar === '\n') {
+    return false;
+  }
+
+  return true;
+};
+
 function formatUsesSection(units: string[], separator: string, lineEnd: string, formattingOptions: FormattingOptions): string {
   const sortFun = (a: string, b: string) => {
     for (let namespace of formattingOptions.configurableSortingArray) {
@@ -132,10 +150,11 @@ function formatUsesSection(units: string[], separator: string, lineEnd: string, 
 
 export function formatText(text: string, separator: string, lineEnd: string, formattingOptions: FormattingOptions): ITextSection[] {
   return findUsesSections(text).map((section: ITextSection): ITextSection => {
+    const startText = isNewLineNeeded(text, section.startOffset) ? lineEnd : '';
     return {
       startOffset: section.startOffset,
       endOffset: section.endOffset,
-      value: formatUsesSection(parseUnits(section.value), separator, lineEnd, formattingOptions)
+      value: `${startText}${formatUsesSection(parseUnits(section.value), separator, lineEnd, formattingOptions)}`
     };
   });
 }

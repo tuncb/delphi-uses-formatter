@@ -32,7 +32,8 @@ kuses
   y;
 
 { Will be sorted, uses is preceded by comment block or compiler directive
-}uses
+}
+uses
   Generics.Collections.patched,
   MemoryGuard,
   Optional,
