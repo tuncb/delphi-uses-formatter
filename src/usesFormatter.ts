@@ -14,36 +14,66 @@ export interface FormattingOptions {
   unitFormattingType: UnitFormattingType;
 }
 
-const findUsesWords = (text: string): number[] => {
-  const regexWholeWordUses = /(\buses\b)/gi;
-  let match = null;
-
-  const res: number[] = [];
-
-  while ((match = regexWholeWordUses.exec(text)) !== null) {
-    res.push(match.index);
-  }
-
-  return res;
+const isWhitespace = (char: string): boolean => {
+  return /\s/.test(char);
 };
 
-const isInComment = (text: string, index: number): boolean => {
-  if (index < 0 || index >= text.length) {
-    throw new Error('Invalid index');
+const isAlphanumeric = (char: string): boolean => {
+  return /^[a-zA-Z0-9]$/.test(char);
+};
+
+const moveUntil = (text: string, index: number, nrChars: number, pred: (str: string) => boolean): number => {
+  for (let i = index; i < text.length - nrChars + 1; i++) {
+    if (pred(text.substring(i, i + nrChars))) {
+      return i;
+    }
+  }
+  return text.length;
+};
+
+const findUsesBlocks = (text: string): number[] => {
+  const usesIndices = [];
+  let index = 0;
+  let isNewWord = true;
+
+  while (index < text.length) {
+    const ch = text[index];
+    if (ch === '{') {
+      index = moveUntil(text, index + 1, 1, (str) => str === '}') + 1;
+      isNewWord = true;
+    }
+    else if (ch === '/') {
+      if (text[index + 1] === '/') {
+        index = moveUntil(text, index + 2, 1, (str) => str === '\n') + 1;
+        isNewWord = true;
+      }
+    } else if (ch === '(') {
+      if (text[index + 1] === '*') {
+        index = moveUntil(text, index + 2, 2, (str) => str === '*)') + 2;
+        isNewWord = true;
+      } else {
+        index++;
+        isNewWord = false;
+      }
+    }
+    else if (isWhitespace(ch)) {
+      isNewWord = true;
+      index++;
+    }
+    else if (isAlphanumeric(ch)) {
+      const next = moveUntil(text, index + 1, 1, (str) => !isAlphanumeric(str));
+      if ((isNewWord) && text.substring(index, next).toLowerCase() === 'uses') {
+        usesIndices.push(index);
+      }
+      index = next;
+      isNewWord = true;
+    } else {
+      index++;
+      isNewWord = false;
+    }
   }
 
-  for (let i = index; i > 0; i--) {
-    if (text[i] === '\n') {
-      return false;
-    }
-    if (text[i] === '{') {
-      return true;
-    }
-    if (text[i] === '/' && text[i - 1] === '/') {
-      return true;
-    }
-  }
-  return false;
+  return usesIndices;
 };
 
 const findUsesBlock = (text: string, index: number): ITextSection | null => {
@@ -59,14 +89,12 @@ const findUsesBlock = (text: string, index: number): ITextSection | null => {
 };
 
 const findUsesSections = (text: string): ITextSection[] => {
-
-  return findUsesWords(text).filter((index: number) => {
-    return !isInComment(text, index);
-  }).map((index: number) => {
-    return findUsesBlock(text, index);
-  }).filter((section: ITextSection | null) => {
-    return section !== null;
-  });
+  return findUsesBlocks(text)
+    .map((index: number) => {
+      return findUsesBlock(text, index);
+    }).filter((section: ITextSection | null) => {
+      return section !== null;
+    });
 };
 
 const parseUnits = (text: string): string[] => {

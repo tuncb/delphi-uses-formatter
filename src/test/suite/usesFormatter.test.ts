@@ -48,7 +48,7 @@ const sampleTexts: TestSample[] = [
   },
   {
     input: {
-      text: "}uses d, c, b, e, f, a;",
+      text: "{}uses d, c, b, e, f, a;",
       options: {
         configurableSortingArray: ["c", "f"],
         unitFormattingType: UnitFormattingType.commaLast
@@ -56,8 +56,8 @@ const sampleTexts: TestSample[] = [
     },
     output: [
       {
-        startOffset: 1,
-        endOffset: 23,
+        startOffset: 2,
+        endOffset: 24,
         value: "uses\n  c,\n  f,\n  a,\n  b,\n  d,\n  e;"
       }
     ],
@@ -111,7 +111,9 @@ const test = (sample: TestSample): void => {
   const lineEnd = "\n";
 
   const replaces = formatText(sample.input.text, separator, lineEnd, sample.input.options);
-  expect(replaces).to.eql(sample.output);
+
+  const errStart = `\nInput:\n${JSON.stringify(sample.input, null, 2)}\n`;
+  expect(replaces).to.eql(sample.output, errStart);
 };
 
 describe('UsesFormatter', function () {
