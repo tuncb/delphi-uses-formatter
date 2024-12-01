@@ -19,7 +19,9 @@ const sampleTexts: TestSample[] = [
       text: "uses d, c, b, e, f, a;",
       options: {
         configurableSortingArray: [],
-        unitFormattingType: UnitFormattingType.commaLast
+        unitFormattingType: UnitFormattingType.commaLast,
+        updateUnitNames: false,
+        unitNamesToUpdate: []
       }
     },
     output: [
@@ -35,7 +37,9 @@ const sampleTexts: TestSample[] = [
       text: "uses d, c, b, e, f, a;",
       options: {
         configurableSortingArray: ["c", "f"],
-        unitFormattingType: UnitFormattingType.commaLast
+        unitFormattingType: UnitFormattingType.commaLast,
+        updateUnitNames: false,
+        unitNamesToUpdate: []
       }
     },
     output: [
@@ -51,7 +55,9 @@ const sampleTexts: TestSample[] = [
       text: "{}uses d, c, b, e, f, a;",
       options: {
         configurableSortingArray: ["c", "f"],
-        unitFormattingType: UnitFormattingType.commaLast
+        unitFormattingType: UnitFormattingType.commaLast,
+        updateUnitNames: false,
+        unitNamesToUpdate: []
       }
     },
     output: [
@@ -67,7 +73,9 @@ const sampleTexts: TestSample[] = [
       text: "kuses d, c, b, e, f, a;",
       options: {
         configurableSortingArray: ["c", "f"],
-        unitFormattingType: UnitFormattingType.commaLast
+        unitFormattingType: UnitFormattingType.commaLast,
+        updateUnitNames: false,
+        unitNamesToUpdate: []
       }
     },
     output: [],
@@ -77,7 +85,9 @@ const sampleTexts: TestSample[] = [
       text: "{\n   she uses tools that match her needs   \n}\n foo();",
       options: {
         configurableSortingArray: [],
-        unitFormattingType: UnitFormattingType.commaLast
+        unitFormattingType: UnitFormattingType.commaLast,
+        updateUnitNames: false,
+        unitNamesToUpdate: []
       }
     },
     output: [],
@@ -88,6 +98,8 @@ const sampleTexts: TestSample[] = [
       options: {
         configurableSortingArray: [],
         unitFormattingType: UnitFormattingType.commaFirst,
+        updateUnitNames: false,
+        unitNamesToUpdate: []
       }
     },
     output: [
@@ -108,7 +120,9 @@ const sampleTexts: TestSample[] = [
       text: "uses {some comment} c,b,a;",
       options: {
         configurableSortingArray: [],
-        unitFormattingType: UnitFormattingType.commaLast
+        unitFormattingType: UnitFormattingType.commaLast,
+        updateUnitNames: false,
+        unitNamesToUpdate: []
       }
     },
     output: [],
@@ -118,7 +132,9 @@ const sampleTexts: TestSample[] = [
       text: "{uses // some comment\n c,b,a;",
       options: {
         configurableSortingArray: [],
-        unitFormattingType: UnitFormattingType.commaLast
+        unitFormattingType: UnitFormattingType.commaLast,
+        updateUnitNames: false,
+        unitNamesToUpdate: []
       }
     },
     output: [],
@@ -128,7 +144,9 @@ const sampleTexts: TestSample[] = [
       text: "{uses \n c,\n (*some comment*)\n b,a;",
       options: {
         configurableSortingArray: [],
-        unitFormattingType: UnitFormattingType.commaLast
+        unitFormattingType: UnitFormattingType.commaLast,
+        updateUnitNames: false,
+        unitNamesToUpdate: []
       }
     },
     output: [],

@@ -30,7 +30,25 @@
         "pascal-uses-formatter.formatOnSave": {
           "type": "boolean",
           "default": true,
-          "description": "Format uses section automatically after first activation"
+          "description": "Format uses section automatically after first activation",
+          "order": 1
+        },
+        "pascal-uses-formatter.updateUnitNames": {
+          "type": "boolean",
+          "default": true,
+          "description": "Update unit names in uses section",
+          "order": 2
+        },
+        "pascal-uses-formatter.unitNamesToUpdate": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "System.SysUtils"
+          ],
+          "description": "Unit names to update. If the part after the last '.' is found it is replaced with the full name.",
+          "order": 3
         },
         "pascal-uses-formatter.overrideSortingOrder": {
           "type": "array",
@@ -38,7 +56,8 @@
             "type": "string"
           },
           "default": [],
-          "description": "Override default namespace sorting order. Configure sorting priority by adding namespace to array"
+          "description": "Override default namespace sorting order. Configure sorting priority by adding namespace to array",
+          "order": 4
         },
         "pascal-uses-formatter.formattingStyle": {
           "type": "string",
@@ -51,7 +70,8 @@
             ", Unit1"
           ],
           "default": "Comma at the end",
-          "description": "Formatting style for units"
+          "description": "Formatting style for units",
+          "order": 5
         }
       }
     }

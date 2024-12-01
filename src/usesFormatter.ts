@@ -12,6 +12,8 @@ export enum UnitFormattingType {
 export interface FormattingOptions {
   configurableSortingArray: string[];
   unitFormattingType: UnitFormattingType;
+  updateUnitNames: boolean;
+  unitNamesToUpdate: string[];
 }
 
 const isWhitespace = (char: string): boolean => {
