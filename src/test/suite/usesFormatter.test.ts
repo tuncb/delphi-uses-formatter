@@ -150,7 +150,43 @@ const sampleTexts: TestSample[] = [
       }
     },
     output: [],
-  }
+  },
+  {
+    input: {
+      text: "uses  c, b, sysutils, windows,components, a;",
+      options: {
+        configurableSortingArray: [],
+        unitFormattingType: UnitFormattingType.commaLast,
+        updateUnitNames: false,
+        unitNamesToUpdate: ["System.SysUtils", "Vcl.Components", "WinApi.Windows"]
+      }
+    },
+    output: [
+      {
+        startOffset: 0,
+        endOffset: 44,
+        value: "uses\n  a,\n  b,\n  c,\n  components,\n  sysutils,\n  windows;"
+      }
+    ]
+  },
+  {
+    input: {
+      text: "uses  c, b, sysutils, windows,components, a;",
+      options: {
+        configurableSortingArray: [],
+        unitFormattingType: UnitFormattingType.commaLast,
+        updateUnitNames: true,
+        unitNamesToUpdate: ["System.SysUtils", "Vcl.Components", "WinApi.Windows"]
+      }
+    },
+    output: [
+      {
+        startOffset: 0,
+        endOffset: 44,
+        value: "uses\n  a,\n  b,\n  c,\n  System.SysUtils,\n  Vcl.Components,\n  WinApi.Windows;"
+      }
+    ],
+  },
 ];
 
 const test = (sample: TestSample): void => {
