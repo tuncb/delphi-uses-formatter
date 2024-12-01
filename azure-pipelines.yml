@@ -42,6 +42,6 @@ steps:
 
 - bash: |
     echo ">>> Publish"
-    npm run deploy $(marketplace)
+    npm run deploy $(VSCODE_MARKETPLACE_TOKEN)
   displayName: Publish
   condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
