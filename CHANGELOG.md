@@ -3,9 +3,12 @@ All notable changes to the "pascal-uses-formatter" extension will be documented 
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.4.2]
+ - Do not sort when the block has unsupported comments and ifdefs in it.
+
 ## [0.4.1]
-- Fix parsing issues related to comments.
-- Better uses section creation: Trim whitespace, start of a new line if the section starts after comments.
+ - Fix parsing issues related to comments.
+ - Better uses section creation: Trim whitespace, start of a new line if the section starts after comments.
 
 ## [0.4.0]
  - Add new formatting style comma at the beginning. Thanks to radkomoder.
