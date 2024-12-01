@@ -7,6 +7,8 @@ import path = require('path');
 interface FormattingRawData {
   overrideSortingOrder: string[];
   formattingStyle: string;
+  updateUnitNames: boolean;
+  unitNamesToUpdate: string[];
 }
 
 interface TestSample {
@@ -37,6 +39,8 @@ const getAbsolutePath = (fileName: string): string => path.resolve(__dirname, fi
 const updateConfiguration = async (options: FormattingRawData) => {
   await vscode.workspace.getConfiguration('pascal-uses-formatter').update('overrideSortingOrder', options.overrideSortingOrder, vscode.ConfigurationTarget.Global);
   await vscode.workspace.getConfiguration('pascal-uses-formatter').update('formattingStyle', options.formattingStyle, vscode.ConfigurationTarget.Global);
+  await vscode.workspace.getConfiguration('pascal-uses-formatter').update('updateUnitNames', options.updateUnitNames, vscode.ConfigurationTarget.Global);
+  await vscode.workspace.getConfiguration('pascal-uses-formatter').update('unitNamesToUpdate', options.unitNamesToUpdate, vscode.ConfigurationTarget.Global);
 };
 
 const testFile = async (sample: TestSample): Promise<void> => {
@@ -60,12 +64,14 @@ const testFile = async (sample: TestSample): Promise<void> => {
 };
 
 suite('Extension Test Suite', () => {
-  let currentOptions: FormattingRawData = { overrideSortingOrder: [], formattingStyle: '' };
+  let currentOptions: FormattingRawData = { overrideSortingOrder: [], formattingStyle: '', updateUnitNames: false, unitNamesToUpdate: [] };
 
   before(() => {
     currentOptions = {
       overrideSortingOrder: vscode.workspace.getConfiguration('pascal-uses-formatter').get('overrideSortingOrder') as string[],
-      formattingStyle: vscode.workspace.getConfiguration('pascal-uses-formatter').get('formattingStyle') as string
+      formattingStyle: vscode.workspace.getConfiguration('pascal-uses-formatter').get('formattingStyle') as string,
+      updateUnitNames: vscode.workspace.getConfiguration('pascal-uses-formatter').get('updateUnitNames') as boolean,
+      unitNamesToUpdate: vscode.workspace.getConfiguration('pascal-uses-formatter').get('unitNamesToUpdate') as string[],
     };
     vscode.window.showInformationMessage('Start all tests.');
   });
