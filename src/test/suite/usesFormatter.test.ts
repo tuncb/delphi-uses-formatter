@@ -102,8 +102,37 @@ const sampleTexts: TestSample[] = [
   ;`
       }
     ],
+  },
+  {
+    input: {
+      text: "uses {some comment} c,b,a;",
+      options: {
+        configurableSortingArray: [],
+        unitFormattingType: UnitFormattingType.commaLast
+      }
+    },
+    output: [],
+  },
+  {
+    input: {
+      text: "{uses // some comment\n c,b,a;",
+      options: {
+        configurableSortingArray: [],
+        unitFormattingType: UnitFormattingType.commaLast
+      }
+    },
+    output: [],
+  },
+  {
+    input: {
+      text: "{uses \n c,\n (*some comment*)\n b,a;",
+      options: {
+        configurableSortingArray: [],
+        unitFormattingType: UnitFormattingType.commaLast
+      }
+    },
+    output: [],
   }
-
 ];
 
 const test = (sample: TestSample): void => {

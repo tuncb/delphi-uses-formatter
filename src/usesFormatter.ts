@@ -70,11 +70,26 @@ const findUsesBlocks = (text: string): number[] => {
   return usesIndices;
 };
 
+const hasUnsupportedText = (text: string): boolean => {
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (ch === '{' || ch === '}' || ch === '(' || ch === ')' || ch === '*' || ch === '/' || ch === "$") {
+      return true;
+    }
+  }
+  return false;
+};
+
 const findUsesBlock = (text: string, index: number): ITextSection | null => {
   const end = text.indexOf(';', index);
   if (end === -1) {
     return null;
   }
+
+  if (hasUnsupportedText(text.substring(index, end + 1))) {
+    return null;
+  }
+
   return {
     startOffset: index,
     endOffset: end + 1,
