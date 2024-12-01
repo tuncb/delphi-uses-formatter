@@ -23,6 +23,14 @@
         "overrideSortingOrder": [],
         "formattingStyle": "Comma at the beginning"
       }
+    },
+    {
+      "originalFile": "ex4.original.test.pas",
+      "correctFile": "ex4.correct.test.pas",
+      "options": {
+        "overrideSortingOrder": [],
+        "formattingStyle": "Comma at the end"
+      }
     }
   ]
 }

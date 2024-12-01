@@ -14,36 +14,60 @@ export interface FormattingOptions {
   unitFormattingType: UnitFormattingType;
 }
 
-const findUsesWords = (text: string): number[] => {
-  const regexWholeWordUses = /(\buses\b)/gi;
-  let match = null;
-
-  const res: number[] = [];
-
-  while ((match = regexWholeWordUses.exec(text)) !== null) {
-    res.push(match.index);
-  }
-
-  return res;
+const isWhitespace = (char: string): boolean => {
+  return /\s/.test(char);
 };
 
-const isInComment = (text: string, index: number): boolean => {
-  if (index < 0 || index >= text.length) {
-    throw new Error('Invalid index');
+const isSpaceOrTab = (char: string): boolean => {
+  return char === ' ' || char === '\t';
+};
+
+const moveUntil = (text: string, index: number, nrChars: number, pred: (str: string) => boolean): number => {
+  for (let i = index; i < text.length - nrChars + 1; i++) {
+    if (pred(text.substring(i, i + nrChars))) {
+      return i;
+    }
+  }
+  return text.length;
+};
+
+const findUsesBlocks = (text: string): number[] => {
+  const usesIndices = [];
+  let index = 0;
+
+  while (index < text.length) {
+    const ch = text[index];
+    if (ch === '{') {
+      index = moveUntil(text, index + 1, 1, (str) => str === '}') + 1;
+    }
+    else if (ch === '/') {
+      if (text[index + 1] === '/') {
+        index = moveUntil(text, index + 2, 1, (str) => str === '\n') + 1;
+      }
+    } else if (ch === '(') {
+      if (text[index + 1] === '*') {
+        index = moveUntil(text, index + 2, 2, (str) => str === '*)') + 2;
+      } else {
+        index = moveUntil(text, index + 1, 1, (str) => isWhitespace(str));
+      }
+    }
+    else if (ch === "'") {
+      index = moveUntil(text, index + 1, 1, (str) => str === "'");
+      index = moveUntil(text, index + 1, 1, (str) => isWhitespace(str));
+    }
+    else if (isWhitespace(ch)) {
+      index = moveUntil(text, index + 1, 1, (str) => !isWhitespace(str));
+    }
+    else {
+      const next = moveUntil(text, index + 1, 1, (str) => isWhitespace(str));
+      if (text.substring(index, next).toLowerCase() === 'uses') {
+        usesIndices.push(index);
+      }
+      index = next;
+    }
   }
 
-  for (let i = index; i > 0; i--) {
-    if (text[i] === '\n') {
-      return false;
-    }
-    if (text[i] === '{') {
-      return true;
-    }
-    if (text[i] === '/' && text[i - 1] === '/') {
-      return true;
-    }
-  }
-  return false;
+  return usesIndices;
 };
 
 const findUsesBlock = (text: string, index: number): ITextSection | null => {
@@ -59,14 +83,12 @@ const findUsesBlock = (text: string, index: number): ITextSection | null => {
 };
 
 const findUsesSections = (text: string): ITextSection[] => {
-
-  return findUsesWords(text).filter((index: number) => {
-    return !isInComment(text, index);
-  }).map((index: number) => {
-    return findUsesBlock(text, index);
-  }).filter((section: ITextSection | null) => {
-    return section !== null;
-  });
+  return findUsesBlocks(text)
+    .map((index: number) => {
+      return findUsesBlock(text, index);
+    }).filter((section: ITextSection | null) => {
+      return section !== null;
+    });
 };
 
 const parseUnits = (text: string): string[] => {
@@ -74,6 +96,35 @@ const parseUnits = (text: string): string[] => {
     .substring(4, text.length - 1)
     .replace(/(\r\n\t|\n|\r\t|\s)/gm, "")
     .split(',');
+};
+
+const isNewLineNeeded = (text: string, index: number): boolean => {
+  if (index === 0) {
+    return false;
+  }
+
+  const prevChar = text[index - 1];
+  if (prevChar === '\n') {
+    return false;
+  }
+
+  return true;
+};
+
+const findTrimmedStart = (text: string, startOffset: number): number => {
+  if (startOffset === 0) {
+    return startOffset;
+  }
+
+  let nrSpaceOrTab = 0;
+  for (let i = startOffset - 1; i >= 0; i--) {
+    if (isSpaceOrTab(text[i])) {
+      nrSpaceOrTab++;
+    } else {
+      break;
+    }
+  }
+  return startOffset - nrSpaceOrTab;
 };
 
 function formatUsesSection(units: string[], separator: string, lineEnd: string, formattingOptions: FormattingOptions): string {
@@ -104,10 +155,12 @@ function formatUsesSection(units: string[], separator: string, lineEnd: string, 
 
 export function formatText(text: string, separator: string, lineEnd: string, formattingOptions: FormattingOptions): ITextSection[] {
   return findUsesSections(text).map((section: ITextSection): ITextSection => {
+    const trimmedStart = findTrimmedStart(text, section.startOffset);
+    const startText = isNewLineNeeded(text, trimmedStart) ? lineEnd : '';
     return {
-      startOffset: section.startOffset,
+      startOffset: trimmedStart,
       endOffset: section.endOffset,
-      value: formatUsesSection(parseUnits(section.value), separator, lineEnd, formattingOptions)
+      value: `${startText}${formatUsesSection(parseUnits(section.value), separator, lineEnd, formattingOptions)}`
     };
   });
 }

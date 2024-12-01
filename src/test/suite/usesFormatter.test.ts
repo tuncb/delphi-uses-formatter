@@ -48,7 +48,7 @@ const sampleTexts: TestSample[] = [
   },
   {
     input: {
-      text: "}uses d, c, b, e, f, a;",
+      text: "{}uses d, c, b, e, f, a;",
       options: {
         configurableSortingArray: ["c", "f"],
         unitFormattingType: UnitFormattingType.commaLast
@@ -56,9 +56,9 @@ const sampleTexts: TestSample[] = [
     },
     output: [
       {
-        startOffset: 1,
-        endOffset: 23,
-        value: "uses\n  c,\n  f,\n  a,\n  b,\n  d,\n  e;"
+        startOffset: 2,
+        endOffset: 24,
+        value: "\nuses\n  c,\n  f,\n  a,\n  b,\n  d,\n  e;"
       }
     ],
   },
@@ -74,7 +74,17 @@ const sampleTexts: TestSample[] = [
   },
   {
     input: {
-      text: "uses  Unit4,  Unit2,  Unit3,  Unit1;",
+      text: "{\n   she uses tools that match her needs   \n}\n foo();",
+      options: {
+        configurableSortingArray: [],
+        unitFormattingType: UnitFormattingType.commaLast
+      }
+    },
+    output: [],
+  },
+  {
+    input: {
+      text: "  uses  Unit4,  Unit2,  Unit3,  Unit1;",
       options: {
         configurableSortingArray: [],
         unitFormattingType: UnitFormattingType.commaFirst,
@@ -83,7 +93,7 @@ const sampleTexts: TestSample[] = [
     output: [
       {
         startOffset: 0,
-        endOffset: 36,
+        endOffset: 38,
         value: `uses
     Unit1
   , Unit2
@@ -101,7 +111,9 @@ const test = (sample: TestSample): void => {
   const lineEnd = "\n";
 
   const replaces = formatText(sample.input.text, separator, lineEnd, sample.input.options);
-  expect(replaces).to.eql(sample.output);
+
+  const errStart = `\nInput:\n${JSON.stringify(sample.input, null, 2)}\n`;
+  expect(replaces).to.eql(sample.output, errStart);
 };
 
 describe('UsesFormatter', function () {
