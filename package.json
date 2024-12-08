@@ -2,7 +2,7 @@
   "name": "pascal-uses-formatter",
   "displayName": "pascal-uses-formatter",
   "description": "sorts the uses section in pascal files",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "publisher": "tuncb",
   "repository": "https://github.com/tuncb/delphi-uses-formatter",
   "license": "Apache-2.0",

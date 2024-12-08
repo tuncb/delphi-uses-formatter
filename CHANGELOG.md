@@ -3,6 +3,9 @@ All notable changes to the "pascal-uses-formatter" extension will be documented 
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.5.0]
+ - Add replacing old style short unit names with longer forms.
+
 ## [0.4.2]
  - Do not sort when the block has unsupported comments and ifdefs in it.
 
