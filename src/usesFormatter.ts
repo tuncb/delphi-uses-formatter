@@ -178,10 +178,10 @@ const createUnitDictionary = (formattingOptions: FormattingOptions): Map<string,
   }
 
   formattingOptions.unitNamesToUpdate.map((unit: string) => {
-    const index = unit.lastIndexOf('.');
+    const index = unit.lastIndexOf(':');
     if (index !== -1) {
       const unitName = unit.substring(index + 1);
-      map.set(unitName.toLowerCase(), unit);
+      map.set(unitName.toLowerCase(), unit.replaceAll(':', '.'));
     }
   });
   return map;

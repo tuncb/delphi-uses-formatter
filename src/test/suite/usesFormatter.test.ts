@@ -176,7 +176,7 @@ const sampleTexts: TestSample[] = [
         configurableSortingArray: [],
         unitFormattingType: UnitFormattingType.commaLast,
         updateUnitNames: true,
-        unitNamesToUpdate: ["System.SysUtils", "Vcl.Components", "WinApi.Windows"]
+        unitNamesToUpdate: ["System:SysUtils", "Vcl:Components", "WinApi:Windows"]
       }
     },
     output: [

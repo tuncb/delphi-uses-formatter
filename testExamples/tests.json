@@ -37,7 +37,10 @@
         "overrideSortingOrder": [],
         "formattingStyle": "Comma at the end",
         "updateUnitNames": false,
-        "unitNamesToUpdate": []
+        "unitNamesToUpdate": [
+          "test:a",
+          "test:b"
+        ]
       }
     }
   ]
