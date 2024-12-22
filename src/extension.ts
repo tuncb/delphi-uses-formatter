@@ -9,12 +9,17 @@ interface IUsesFormatterState {
 function getFormattingOptions(): FormattingOptions {
   const configurableSortingArray = vscode.workspace.getConfiguration('pascal-uses-formatter').get('overrideSortingOrder') as string[];
   const unitFormattingTypeName = vscode.workspace.getConfiguration('pascal-uses-formatter').get('formattingStyle') as string;
+  const updateUnitNames = vscode.workspace.getConfiguration('pascal-uses-formatter').get('updateUnitNames') as boolean;
+  const unitNamesToUpdate = vscode.workspace.getConfiguration('pascal-uses-formatter').get('unitNamesToUpdate') as string[];
+
 
   const unitFormattingType = unitFormattingTypeName === "Comma at the beginning" ? UnitFormattingType.commaFirst : UnitFormattingType.commaLast;
 
   return {
     configurableSortingArray,
-    unitFormattingType
+    unitFormattingType,
+    updateUnitNames,
+    unitNamesToUpdate,
   };
 }
 

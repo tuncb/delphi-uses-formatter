@@ -12,6 +12,8 @@ export enum UnitFormattingType {
 export interface FormattingOptions {
   configurableSortingArray: string[];
   unitFormattingType: UnitFormattingType;
+  updateUnitNames: boolean;
+  unitNamesToUpdate: string[];
 }
 
 const isWhitespace = (char: string): boolean => {
@@ -106,11 +108,12 @@ const findUsesSections = (text: string): ITextSection[] => {
     });
 };
 
-const parseUnits = (text: string): string[] => {
+const parseUnits = (text: string, unitNamesMapping: Map<string, string>): string[] => {
   return text
     .substring(4, text.length - 1)
     .replace(/(\r\n\t|\n|\r\t|\s)/gm, "")
-    .split(',');
+    .split(',')
+    .map((unit: string) => unitNamesMapping.get(unit.toLowerCase()) || unit);
 };
 
 const isNewLineNeeded = (text: string, index: number): boolean => {
@@ -168,14 +171,31 @@ function formatUsesSection(units: string[], separator: string, lineEnd: string, 
   }
 }
 
+const createUnitDictionary = (formattingOptions: FormattingOptions): Map<string, string> => {
+  const map = new Map<string, string>();
+  if (!formattingOptions.updateUnitNames) {
+    return map;
+  }
+
+  formattingOptions.unitNamesToUpdate.map((unit: string) => {
+    const index = unit.lastIndexOf(':');
+    if (index !== -1) {
+      const unitName = unit.substring(index + 1);
+      map.set(unitName.toLowerCase(), unit.replaceAll(':', '.'));
+    }
+  });
+  return map;
+};
+
 export function formatText(text: string, separator: string, lineEnd: string, formattingOptions: FormattingOptions): ITextSection[] {
   return findUsesSections(text).map((section: ITextSection): ITextSection => {
     const trimmedStart = findTrimmedStart(text, section.startOffset);
     const startText = isNewLineNeeded(text, trimmedStart) ? lineEnd : '';
+    const unitDictionary = createUnitDictionary(formattingOptions);
     return {
       startOffset: trimmedStart,
       endOffset: section.endOffset,
-      value: `${startText}${formatUsesSection(parseUnits(section.value), separator, lineEnd, formattingOptions)}`
+      value: `${startText}${formatUsesSection(parseUnits(section.value, unitDictionary), separator, lineEnd, formattingOptions)}`
     };
   });
 }

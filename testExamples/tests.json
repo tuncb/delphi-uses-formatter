@@ -5,7 +5,9 @@
       "correctFile": "ex1.correct.test.pas",
       "options": {
         "overrideSortingOrder": [],
-        "formattingStyle": "Comma at the end"
+        "formattingStyle": "Comma at the end",
+        "updateUnitNames": false,
+        "unitNamesToUpdate": []
       }
     },
     {
@@ -13,7 +15,9 @@
       "correctFile": "ex2.correct.test.pas",
       "options": {
         "overrideSortingOrder": [],
-        "formattingStyle": "Comma at the end"
+        "formattingStyle": "Comma at the end",
+        "updateUnitNames": false,
+        "unitNamesToUpdate": []
       }
     },
     {
@@ -21,7 +25,9 @@
       "correctFile": "ex3.correct.test.pas",
       "options": {
         "overrideSortingOrder": [],
-        "formattingStyle": "Comma at the beginning"
+        "formattingStyle": "Comma at the beginning",
+        "updateUnitNames": false,
+        "unitNamesToUpdate": []
       }
     },
     {
@@ -29,7 +35,12 @@
       "correctFile": "ex4.correct.test.pas",
       "options": {
         "overrideSortingOrder": [],
-        "formattingStyle": "Comma at the end"
+        "formattingStyle": "Comma at the end",
+        "updateUnitNames": false,
+        "unitNamesToUpdate": [
+          "test:a",
+          "test:b"
+        ]
       }
     }
   ]
