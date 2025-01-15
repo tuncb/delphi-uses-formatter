@@ -171,7 +171,7 @@ const sampleTexts: TestSample[] = [
   },
   {
     input: {
-      text: "uses  c, b, sysutils, windows,components, a;",
+      text: "uses  c, b, sysutils, windows,components, a; var a = 10 / 5;",
       options: {
         configurableSortingArray: [],
         unitFormattingType: UnitFormattingType.commaLast,

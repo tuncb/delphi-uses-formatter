@@ -45,6 +45,8 @@ const findUsesBlocks = (text: string): number[] => {
     else if (ch === '/') {
       if (text[index + 1] === '/') {
         index = moveUntil(text, index + 2, 1, (str) => str === '\n') + 1;
+      } else {
+        index = moveUntil(text, index + 1, 1, (str) => !isWhitespace(str));
       }
     } else if (ch === '(') {
       if (text[index + 1] === '*') {

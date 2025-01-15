@@ -4,6 +4,8 @@ All notable changes to the "pascal-uses-formatter" extension will be documented 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
 ## [0.5.1]
+ - Fix parsing infinite loop
+## [0.5.1]
  - Fix default options
 
 ## [0.5.0]
