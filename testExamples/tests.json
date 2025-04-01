@@ -42,6 +42,46 @@
           "test:b"
         ]
       }
+    },
+    {
+      "originalFile": "ex5.excluded.test.pas",
+      "correctFile": "ex5.excluded.test.pas",
+      "options": {
+        "overrideSortingOrder": [],
+        "formattingStyle": "Comma at the end",
+        "updateUnitNames": false,
+        "unitNamesToUpdate": [],
+        "excludePatterns": [
+          "**/ex5.excluded.test.pas"
+        ]
+      }
+    },
+    {
+      "originalFile": "ex6.skip.test.pas",
+      "correctFile": "ex6.skip.test.pas",
+      "options": {
+        "overrideSortingOrder": [],
+        "formattingStyle": "Comma at the end",
+        "updateUnitNames": false,
+        "unitNamesToUpdate": [],
+        "excludePatterns": [
+          "**/ex6.*.test.pas"
+        ]
+      }
+    },
+    {
+      "originalFile": "ex7.original.test.pas",
+      "correctFile": "ex7.correct.test.pas",
+      "options": {
+        "overrideSortingOrder": [],
+        "formattingStyle": "Comma at the end",
+        "updateUnitNames": false,
+        "unitNamesToUpdate": [],
+        "excludePatterns": [
+          "**/ex5.excluded.test.pas",
+          "**/ex6.*.test.pas"
+        ]
+      }
     }
   ]
 }

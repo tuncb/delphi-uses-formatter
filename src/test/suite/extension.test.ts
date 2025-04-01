@@ -9,6 +9,7 @@ interface FormattingRawData {
   formattingStyle: string;
   updateUnitNames: boolean;
   unitNamesToUpdate: string[];
+  excludePatterns?: string[];
 }
 
 interface TestSample {
@@ -41,6 +42,7 @@ const updateConfiguration = async (options: FormattingRawData) => {
   await vscode.workspace.getConfiguration('pascal-uses-formatter').update('formattingStyle', options.formattingStyle, vscode.ConfigurationTarget.Global);
   await vscode.workspace.getConfiguration('pascal-uses-formatter').update('updateUnitNames', options.updateUnitNames, vscode.ConfigurationTarget.Global);
   await vscode.workspace.getConfiguration('pascal-uses-formatter').update('unitNamesToUpdate', options.unitNamesToUpdate, vscode.ConfigurationTarget.Global);
+  await vscode.workspace.getConfiguration('pascal-uses-formatter').update('excludePatterns', options.excludePatterns || [], vscode.ConfigurationTarget.Global);
 };
 
 const testFile = async (sample: TestSample): Promise<void> => {
@@ -64,7 +66,13 @@ const testFile = async (sample: TestSample): Promise<void> => {
 };
 
 suite('Extension Test Suite', () => {
-  let currentOptions: FormattingRawData = { overrideSortingOrder: [], formattingStyle: '', updateUnitNames: false, unitNamesToUpdate: [] };
+  let currentOptions: FormattingRawData = {
+    overrideSortingOrder: [],
+    formattingStyle: '',
+    updateUnitNames: false,
+    unitNamesToUpdate: [],
+    excludePatterns: []
+  };
 
   before(() => {
     currentOptions = {
@@ -72,6 +80,7 @@ suite('Extension Test Suite', () => {
       formattingStyle: vscode.workspace.getConfiguration('pascal-uses-formatter').get('formattingStyle') as string,
       updateUnitNames: vscode.workspace.getConfiguration('pascal-uses-formatter').get('updateUnitNames') as boolean,
       unitNamesToUpdate: vscode.workspace.getConfiguration('pascal-uses-formatter').get('unitNamesToUpdate') as string[],
+      excludePatterns: vscode.workspace.getConfiguration('pascal-uses-formatter').get('excludePatterns') as string[] || [],
     };
     vscode.window.showInformationMessage('Start all tests.');
   });

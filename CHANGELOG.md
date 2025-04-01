@@ -3,6 +3,8 @@ All notable changes to the "pascal-uses-formatter" extension will be documented 
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.6.0]
+ - Add "excludePatterns" option to exclude files with glob patterns.
 ## [0.5.1]
  - Fix parsing infinite loop
 ## [0.5.1]

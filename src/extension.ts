@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import { formatText, FormattingOptions, ITextSection, UnitFormattingType } from './usesFormatter';
 import { TextEditor, TextEditorEdit, Range, EndOfLine, TextEditorOptions } from 'vscode';
+import { minimatch } from 'minimatch';
 
 interface IUsesFormatterState {
   context: vscode.ExtensionContext;
@@ -44,8 +45,18 @@ function getSeparator(options: TextEditorOptions): string {
   return "\t";
 }
 
+function shouldExcludeFile(filePath: string): boolean {
+  const excludePatterns = vscode.workspace.getConfiguration('pascal-uses-formatter').get('excludePatterns') as string[];
+  return excludePatterns.some(pattern => minimatch(filePath, pattern));
+}
+
 function formatDocument(editor: TextEditor, edit: TextEditorEdit) {
   const doc = editor.document;
+
+  if (shouldExcludeFile(doc.fileName)) {
+    return;
+  }
+
   const separator = getSeparator(editor.options);
   const lineEnd = getLineEnd(doc.eol);
   const text = doc.getText();
@@ -91,7 +102,6 @@ function formatUsesOnSave(e: vscode.TextDocumentWillSaveEvent) {
   };
 
   e.waitUntil(doBeforeSave());
-
 }
 
 function subscribe(state: IUsesFormatterState) {

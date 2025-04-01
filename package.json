@@ -2,7 +2,7 @@
   "name": "pascal-uses-formatter",
   "displayName": "pascal-uses-formatter",
   "description": "sorts the uses section in pascal files",
-  "version": "0.5.2",
+  "version": "0.6.0",
   "publisher": "tuncb",
   "repository": "https://github.com/tuncb/delphi-uses-formatter",
   "license": "Apache-2.0",
@@ -37,7 +37,7 @@
           "type": "boolean",
           "default": true,
           "description": "Update unit names in uses section",
-          "order": 2
+          "order": 6
         },
         "pascal-uses-formatter.unitNamesToUpdate": {
           "type": "array",
@@ -305,7 +305,7 @@
             "Winapi:oleacc"
           ],
           "description": "Unit names to update. If the part after ':' is found it is replaced with the full name with '.' replacing ':'.",
-          "order": 3
+          "order": 7
         },
         "pascal-uses-formatter.overrideSortingOrder": {
           "type": "array",
@@ -314,7 +314,7 @@
           },
           "default": [],
           "description": "Override default namespace sorting order. Configure sorting priority by adding namespace to array",
-          "order": 4
+          "order": 2
         },
         "pascal-uses-formatter.formattingStyle": {
           "type": "string",
@@ -328,7 +328,16 @@
           ],
           "default": "Comma at the end",
           "description": "Formatting style for units",
-          "order": 5
+          "order": 3
+        },
+        "pascal-uses-formatter.excludePatterns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "Glob patterns for files to exclude from formatting",
+          "order": 4
         }
       }
     }
@@ -344,7 +353,6 @@
   },
   "devDependencies": {
     "@types/chai": "^4.3.20",
-    "@types/glob": "^7.2.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "^16.18.119",
     "@types/vscode": "^1.95.0",
@@ -354,12 +362,13 @@
     "@vscode/vsce": "^3.2.1",
     "chai": "^4.5.0",
     "eslint": "^8.57.1",
-    "glob": "^7.2.3",
+    "glob": "^11.0.1",
     "mocha": "^10.8.2",
     "source-map-support": "^0.5.21",
     "typescript": "^5.7.2"
   },
   "dependencies": {
-    "ci": "^2.3.0"
+    "ci": "^2.3.0",
+    "minimatch": "^9.0.3"
   }
 }
