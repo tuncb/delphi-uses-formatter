@@ -20,6 +20,8 @@ Command: pascal-uses-formatter.formatUses
 
 * pascal-uses-formatter.**formatOnSave**: when the extension is activated it also auto formats on save.
 
+* pascal-uses-formatter.**excludePatterns**: An array of glob patterns for file names to exclude from sorting.
+
 * pascal-uses-formatter.**formattingStyle**: Select formatting style.
 
 (Default) Comma at the end:
