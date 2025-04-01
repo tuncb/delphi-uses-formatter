@@ -5,7 +5,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [0.6.0]
  - Add "excludePatterns" option to exclude files with glob patterns.
-## [0.5.1]
+## [0.5.2]
  - Fix parsing infinite loop
 ## [0.5.1]
  - Fix default options
