@@ -28,18 +28,22 @@ const openTestPair = async (originalFileName: string, correctFileName: string): 
 const testFile = async (originalFileName: string): Promise<void> => {
   const correctFileName = findCorrectFileName(originalFileName);
   const testPair = await openTestPair(originalFileName, correctFileName);
-  await vscode.window.showTextDocument(testPair.originalDoc);
+  const editor = await vscode.window.showTextDocument(testPair.originalDoc);
+  editor.options = {
+    insertSpaces: true,
+    tabSize: 2,
+  };
 
   await vscode.commands.executeCommand('pascal-uses-formatter.formatUses');
 
-  const extension = await vscode.extensions.getExtension('tuncb.pascal-uses-formatter');
+  const extension = vscode.extensions.getExtension('tuncb.pascal-uses-formatter');
   assert.ok(extension);
   assert.ok(extension!.isActive);
 
   const changedText = testPair.originalDoc.getText();
   const correctDoc = testPair.correctDoc.getText();
 
-  assert.ok(correctDoc === changedText);
+  assert.strictEqual(changedText, correctDoc);
 };
 
 suite('Extension Test Suite', () => {
@@ -50,6 +54,8 @@ suite('Extension Test Suite', () => {
   test('Conversion tests', async () => {
     const fileGlob = path.resolve(__dirname, '../../../testExamples', '*.original.test.pas');
     const files = glob.sync(fileGlob);
-    return Promise.all(files.map(testFile));
+    for (const file of files) {
+      await testFile(file);
+    }
   });
 });
