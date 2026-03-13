@@ -7,7 +7,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   files: 'out/test/**/*.test.js',
-  version: '1.70.0',
+  version: '1.108.0',
   extensionDevelopmentPath: __dirname,
   workspaceFolder: __dirname,
   mocha: {
