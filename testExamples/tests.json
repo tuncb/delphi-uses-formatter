@@ -1,0 +1,87 @@
+{
+  "tests": [
+    {
+      "originalFile": "ex1.original.test.pas",
+      "correctFile": "ex1.correct.test.pas",
+      "options": {
+        "overrideSortingOrder": [],
+        "formattingStyle": "Comma at the end",
+        "updateUnitNames": false,
+        "unitNamesToUpdate": []
+      }
+    },
+    {
+      "originalFile": "ex2.original.test.pas",
+      "correctFile": "ex2.correct.test.pas",
+      "options": {
+        "overrideSortingOrder": [],
+        "formattingStyle": "Comma at the end",
+        "updateUnitNames": false,
+        "unitNamesToUpdate": []
+      }
+    },
+    {
+      "originalFile": "ex3.original.test.pas",
+      "correctFile": "ex3.correct.test.pas",
+      "options": {
+        "overrideSortingOrder": [],
+        "formattingStyle": "Comma at the beginning",
+        "updateUnitNames": false,
+        "unitNamesToUpdate": []
+      }
+    },
+    {
+      "originalFile": "ex4.original.test.pas",
+      "correctFile": "ex4.correct.test.pas",
+      "options": {
+        "overrideSortingOrder": [],
+        "formattingStyle": "Comma at the end",
+        "updateUnitNames": false,
+        "unitNamesToUpdate": [
+          "test:a",
+          "test:b"
+        ]
+      }
+    },
+    {
+      "originalFile": "ex5.excluded.test.pas",
+      "correctFile": "ex5.excluded.test.pas",
+      "options": {
+        "overrideSortingOrder": [],
+        "formattingStyle": "Comma at the end",
+        "updateUnitNames": false,
+        "unitNamesToUpdate": [],
+        "excludePatterns": [
+          "**/ex5.excluded.test.pas"
+        ]
+      }
+    },
+    {
+      "originalFile": "ex6.skip.test.pas",
+      "correctFile": "ex6.skip.test.pas",
+      "options": {
+        "overrideSortingOrder": [],
+        "formattingStyle": "Comma at the end",
+        "updateUnitNames": false,
+        "unitNamesToUpdate": [],
+        "excludePatterns": [
+          "**/ex6.*.test.pas"
+        ]
+      }
+    },
+    {
+      "originalFile": "ex7.original.test.pas",
+      "correctFile": "ex7.correct.test.pas",
+      "options": {
+        "overrideSortingOrder": [],
+        "formattingStyle": "Comma at the end",
+        "updateUnitNames": false,
+        "unitNamesToUpdate": [],
+        "excludePatterns": [
+          "**/ex5.excluded.test.pas",
+          "**/ex6.*.test.pas"
+        ]
+      }
+    }
+  ]
+}
