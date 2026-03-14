@@ -45,4 +45,4 @@ uses
 
 ![overrideSortingOrder](./other/configurableSortingArrayUse.gif)
 
-[![Build Status](https://dev.azure.com/tuncbahcecioglu/delphi-uses-formatter-CI/_apis/build/status/tuncb.delphi-uses-formatter?branchName=master)](https://dev.azure.com/tuncbahcecioglu/delphi-uses-formatter-CI/_build/latest?definitionId=1&branchName=master)
+[![CI](https://github.com/tuncb/delphi-uses-formatter/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/tuncb/delphi-uses-formatter/actions/workflows/ci.yml?query=branch%3Amaster)
