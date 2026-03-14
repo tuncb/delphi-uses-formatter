@@ -1,17 +1,30 @@
 import { assert } from 'chai';
 import { before } from 'mocha';
+import * as fs from 'fs';
 import * as path from 'path';
 import * as vscode from 'vscode';
-import glob = require('glob');
-
-const findCorrectFileName = (originalFileName: string) => {
-  const originalPos = originalFileName.lastIndexOf('.original');
-  return `${originalFileName.substr(0, originalPos)}.correct.test.pas`;
-};
 
 interface ITestPairDoc {
   originalDoc: vscode.TextDocument;
   correctDoc: vscode.TextDocument;
+}
+
+interface ITestOptions {
+  overrideSortingOrder: string[];
+  formattingStyle: string;
+  updateUnitNames: boolean;
+  unitNamesToUpdate: string[];
+  excludePatterns?: string[];
+}
+
+interface ITestDefinition {
+  originalFile: string;
+  correctFile: string;
+  options: ITestOptions;
+}
+
+interface ITestFile {
+  tests: ITestDefinition[];
 }
 
 const openTextDocument = async (fileName: string): Promise<vscode.TextDocument> => {
@@ -25,8 +38,21 @@ const openTestPair = async (originalFileName: string, correctFileName: string): 
   return {originalDoc, correctDoc};
 };
 
-const testFile = async (originalFileName: string): Promise<void> => {
-  const correctFileName = findCorrectFileName(originalFileName);
+const updateConfiguration = async (options: ITestOptions): Promise<void> => {
+  const config = vscode.workspace.getConfiguration('pascal-uses-formatter');
+  await config.update('overrideSortingOrder', options.overrideSortingOrder, vscode.ConfigurationTarget.Global);
+  await config.update('formattingStyle', options.formattingStyle, vscode.ConfigurationTarget.Global);
+  await config.update('updateUnitNames', options.updateUnitNames, vscode.ConfigurationTarget.Global);
+  await config.update('unitNamesToUpdate', options.unitNamesToUpdate, vscode.ConfigurationTarget.Global);
+  await config.update('excludePatterns', options.excludePatterns ?? [], vscode.ConfigurationTarget.Global);
+};
+
+const testFile = async (testDefinition: ITestDefinition): Promise<void> => {
+  await updateConfiguration(testDefinition.options);
+
+  const testExamplesDir = path.resolve(__dirname, '../../../testExamples');
+  const originalFileName = path.join(testExamplesDir, testDefinition.originalFile);
+  const correctFileName = path.join(testExamplesDir, testDefinition.correctFile);
   const testPair = await openTestPair(originalFileName, correctFileName);
   const editor = await vscode.window.showTextDocument(testPair.originalDoc);
   editor.options = {
@@ -52,10 +78,14 @@ suite('Extension Test Suite', () => {
   });
 
   test('Conversion tests', async () => {
-    const fileGlob = path.resolve(__dirname, '../../../testExamples', '*.original.test.pas');
-    const files = glob.sync(fileGlob);
-    for (const file of files) {
-      await testFile(file);
+    const testsFileName = path.resolve(__dirname, '../../../testExamples/tests.json');
+    const testsFile = JSON.parse(fs.readFileSync(testsFileName, 'utf8')) as ITestFile;
+    const testExamplesDir = path.resolve(__dirname, '../../../testExamples');
+
+    for (const testDefinition of testsFile.tests) {
+      assert.ok(fs.existsSync(path.join(testExamplesDir, testDefinition.originalFile)), `Missing test fixture ${testDefinition.originalFile}`);
+      assert.ok(fs.existsSync(path.join(testExamplesDir, testDefinition.correctFile)), `Missing test fixture ${testDefinition.correctFile}`);
+      await testFile(testDefinition);
     }
   });
 });

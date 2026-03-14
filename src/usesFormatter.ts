@@ -105,7 +105,7 @@ const findUsesSections = (text: string): ITextSection[] => {
   return findUsesBlocks(text)
     .map((index: number) => {
       return findUsesBlock(text, index);
-    }).filter((section: ITextSection | null) => {
+    }).filter((section: ITextSection | null): section is ITextSection => {
       return section !== null;
     });
 };

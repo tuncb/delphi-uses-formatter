@@ -1,17 +1,17 @@
 import * as vscode from 'vscode';
 import { formatText, FormattingOptions, ITextSection, UnitFormattingType } from './usesFormatter';
 import { TextEditor, TextEditorEdit, Range, EndOfLine, TextEditorOptions } from 'vscode';
-import { minimatch } from 'minimatch';
+import minimatch = require('minimatch');
 
 interface IUsesFormatterState {
   context: vscode.ExtensionContext;
 }
 
 function getFormattingOptions(): FormattingOptions {
-  const configurableSortingArray = vscode.workspace.getConfiguration('pascal-uses-formatter').get('overrideSortingOrder') as string[];
-  const unitFormattingTypeName = vscode.workspace.getConfiguration('pascal-uses-formatter').get('formattingStyle') as string;
-  const updateUnitNames = vscode.workspace.getConfiguration('pascal-uses-formatter').get('updateUnitNames') as boolean;
-  const unitNamesToUpdate = vscode.workspace.getConfiguration('pascal-uses-formatter').get('unitNamesToUpdate') as string[];
+  const configurableSortingArray = vscode.workspace.getConfiguration('pascal-uses-formatter').get<string[]>('overrideSortingOrder', []);
+  const unitFormattingTypeName = vscode.workspace.getConfiguration('pascal-uses-formatter').get<string>('formattingStyle', 'Comma at the end');
+  const updateUnitNames = vscode.workspace.getConfiguration('pascal-uses-formatter').get<boolean>('updateUnitNames', false);
+  const unitNamesToUpdate = vscode.workspace.getConfiguration('pascal-uses-formatter').get<string[]>('unitNamesToUpdate', []);
 
 
   const unitFormattingType = unitFormattingTypeName === "Comma at the beginning" ? UnitFormattingType.commaFirst : UnitFormattingType.commaLast;
@@ -46,7 +46,7 @@ function getSeparator(options: TextEditorOptions): string {
 }
 
 function shouldExcludeFile(filePath: string): boolean {
-  const excludePatterns = vscode.workspace.getConfiguration('pascal-uses-formatter').get('excludePatterns') as string[];
+  const excludePatterns = vscode.workspace.getConfiguration('pascal-uses-formatter').get('excludePatterns', []);
   return excludePatterns.some(pattern => minimatch(filePath, pattern));
 }
 
